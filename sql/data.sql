@@ -12,6 +12,8 @@ INSERT INTO boulangerie_user (firstname, lastname, email, user_password) VALUES
     ('Marie', 'Lemoine', 'marie.lemoine@example.com', 'password456'),
     ('Andry', 'Rakotomalala', 'andry.rakotomalala@example.com', 'password789');
 
+INSERT INTO boulangerie_user (firstname, lastname, email, user_password) VALUES  
+    ('Ninah', 'Malala', 'ninahx_x@cook.com', 'password123');
 -- Insert into the 'ingredient' table
 INSERT INTO ingredient (ingredient_name, unit, price) VALUES  
     ('Flour', 'grams', 1000),
