@@ -420,5 +420,271 @@ public class Recipe {
         return "Recipe [id=" + id + ", title=" + title + ", description=" + description + ", idCategory=" + idCategory
                 + ", cookTime=" + cookTime + ", createdBy=" + createdBy + ", createdDate=" + createdDate + "]";
     }
+    public static ArrayList<Recipe> search(
+    String searchTitle,
+    String searchDescription,
+    int searchIdCategory,
+    LocalTime minCookTime,
+    LocalTime maxCookTime,
+    String searchCreator,
+    LocalDate minCreationDate,
+    LocalDate maxCreationDate,
+    int searchIngredientId
+) throws Exception {
+    ArrayList<Recipe> recipes = new ArrayList<>();
+
+    Connection connection = null;
+    PreparedStatement statement = null;
+    ResultSet resultSet = null;
+
+    try {
+        connection = DBConnection.getPostgesConnection();
+
+        // Construire la requête SQL avec jointure explicite pour l'ingrédient
+        StringBuilder sql = new StringBuilder();
+        sql.append("SELECT DISTINCT r.* FROM recipe r")
+           .append(" LEFT JOIN recipe_ingredient ri ON r.id_recipe = ri.id_recipe")
+           .append(" WHERE r.title ILIKE ?")
+           .append(" AND r.recipe_description ILIKE ?");
+
+        if (searchIdCategory != 0) {
+            sql.append(" AND r.id_category = ?");
+        }
+        if (minCookTime != null) {
+            sql.append(" AND r.cook_time >= ?");
+        }
+        if (maxCookTime != null) {
+            sql.append(" AND r.cook_time <= ?");
+        }
+
+        sql.append(" AND r.created_by ILIKE ?");
+
+        if (minCreationDate != null) {
+            sql.append(" AND r.created_date >= ?");
+        }
+        if (maxCreationDate != null) {
+            sql.append(" AND r.created_date <= ?");
+        }
+
+        // Si un ingrédient est spécifié, ajouter la condition pour l'ingrédient
+        if (searchIngredientId != 0) {
+            sql.append(" AND ri.id_ingredient = ?");
+        }
+
+        // Préparer la requête avec les paramètres
+        statement = connection.prepareStatement(sql.toString());
+
+        int paramIndex = 1;
+        statement.setString(paramIndex, "%" + searchTitle.toLowerCase() + "%");
+        paramIndex++;
+        statement.setString(paramIndex, "%" + searchDescription.toLowerCase() + "%");
+        paramIndex++;
+        if (searchIdCategory != 0) {
+            statement.setInt(paramIndex, searchIdCategory);
+            paramIndex++;
+        }
+        if (minCookTime != null) {
+            statement.setTime(paramIndex, Time.valueOf(minCookTime));
+            paramIndex++;
+        }
+        if (maxCookTime != null) {
+            statement.setTime(paramIndex, Time.valueOf(maxCookTime));
+            paramIndex++;
+        }
+        statement.setString(paramIndex, "%" + searchCreator.toLowerCase() + "%");
+        paramIndex++;
+        if (minCreationDate != null) {
+            statement.setDate(paramIndex, Date.valueOf(minCreationDate));
+            paramIndex++;
+        }
+        if (maxCreationDate != null) {
+            statement.setDate(paramIndex, Date.valueOf(maxCreationDate));
+            paramIndex++;
+        }
+
+        // Si un ingrédient est spécifié, ajouter ce paramètre
+        if (searchIngredientId != 0) {
+            statement.setInt(paramIndex, searchIngredientId);
+        }
+
+        // Exécuter la requête
+        resultSet = statement.executeQuery();
+
+        while (resultSet.next()) {
+            int id = resultSet.getInt("id_recipe");
+            String title = resultSet.getString("title");
+            String description = resultSet.getString("recipe_description");
+            int idCategory = resultSet.getInt("id_category");
+            LocalTime cookTime = resultSet.getTime("cook_time").toLocalTime();
+            String createdBy = resultSet.getString("created_by");
+            LocalDate createdDate = resultSet.getDate("created_date").toLocalDate();
+
+            recipes.add(new Recipe(id, title, description, idCategory, cookTime, createdBy, createdDate));
+        }
+    } finally {
+        if (resultSet != null) resultSet.close();
+        if (statement != null) statement.close();
+        if (connection != null) connection.close();
+    }
+
+    return recipes;
+}
+
+    // public static ArrayList<Recipe> search(
+    //     String searchTitle,
+    //     String searchDescription,
+    //     int searchIdCategory,
+    //     LocalTime minCookTime,
+    //     LocalTime maxCookTime,
+    //     String searchCreator,
+    //     LocalDate minCreationDate,
+    //     LocalDate maxCreationDate,
+    //     int searchIngredientId // No change here, keep it as int
+    // ) throws Exception {
+    //     ArrayList<Recipe> recipes = new ArrayList<>();
+    
+    //     Connection connection = null;
+    //     PreparedStatement statement = null;
+    //     ResultSet resultSet = null;
+    
+    //     try {
+    //         connection = DBConnection.getPostgesConnection();
+    
+    //         // Build the SQL query with UNION
+    //         StringBuilder sql = new StringBuilder();
+    //         sql.append("SELECT * FROM recipe WHERE title ILIKE ?")
+    //            .append(" AND recipe_description ILIKE ?");
+    
+    //         if (searchIdCategory != 0) {
+    //             sql.append(" AND id_category = ?");
+    //         }
+    //         if (minCookTime != null) {
+    //             sql.append(" AND cook_time >= ?");
+    //         }
+    //         if (maxCookTime != null) {
+    //             sql.append(" AND cook_time <= ?");
+    //         }
+    
+    //         sql.append(" AND created_by ILIKE ?");
+    
+    //         if (minCreationDate != null) {
+    //             sql.append(" AND created_date >= ?");
+    //         }
+    //         if (maxCreationDate != null) {
+    //             sql.append(" AND created_date <= ?");
+    //         }
+    
+    //         // Si un ingrédient est spécifié, ajouter la partie UNION
+    //         if (searchIngredientId != 0) {
+    //             sql.append(" UNION (SELECT r.* FROM recipe r")
+    //                .append(" JOIN recipe_ingredient ri ON r.id_recipe = ri.id_recipe")
+    //                .append(" WHERE ri.id_ingredient = ?)");
+    //         }
+    //         // Prepare the statement with the dynamically built SQL
+    //         statement = connection.prepareStatement(sql.toString());
+    
+    //         // Set the search parameters
+    //         int paramIndex = 1;
+    //         statement.setString(paramIndex, "%" + searchTitle.toLowerCase() + "%");
+    //         paramIndex++;
+    //         statement.setString(paramIndex, "%" + searchDescription.toLowerCase() + "%");
+    //         paramIndex++;
+    //         if (searchIdCategory != 0) {
+    //             statement.setInt(paramIndex, searchIdCategory);
+    //             paramIndex++;
+    //         }
+    //         if (minCookTime != null) {
+    //             statement.setTime(paramIndex, Time.valueOf(minCookTime));
+    //             paramIndex++;
+    //         }
+    //         if (maxCookTime != null) {
+    //             statement.setTime(paramIndex, Time.valueOf(maxCookTime));
+    //             paramIndex++;
+    //         }
+    //         statement.setString(paramIndex, "%" + searchCreator.toLowerCase() + "%");
+    //         paramIndex++;
+    //         if (minCreationDate != null) {
+    //             statement.setDate(paramIndex, Date.valueOf(minCreationDate));
+    //             paramIndex++;
+    //         }
+    //         if (maxCreationDate != null) {
+    //             statement.setDate(paramIndex, Date.valueOf(maxCreationDate));
+    //             paramIndex++;
+    //         }
+    
+    //         // If ingredient ID is provided (not 0), set it in the query
+    //         if (searchIngredientId != 0) {
+    //             statement.setInt(paramIndex, searchIngredientId);
+    //         }
+    
+    //         // Execute the query
+    //         resultSet = statement.executeQuery();
+    
+    //         while (resultSet.next()) {
+    //             int id = resultSet.getInt("id_recipe");
+    //             String title = resultSet.getString("title");
+    //             String description = resultSet.getString("recipe_description");
+    //             int idCategory = resultSet.getInt("id_category");
+    //             LocalTime cookTime = resultSet.getTime("cook_time").toLocalTime();
+    //             String createdBy = resultSet.getString("created_by");
+    //             LocalDate createdDate = resultSet.getDate("created_date").toLocalDate();
+    
+    //             recipes.add(
+    //                 new Recipe(id, title, description, idCategory, cookTime, createdBy, createdDate)
+    //             );
+    //         }
+    //     } finally {
+    //         if (resultSet != null) resultSet.close();
+    //         if (statement != null) statement.close();
+    //         if (connection != null) connection.close();
+    //     }
+    
+    //     return recipes;
+    // }
+
+
+    public static ArrayList<Recipe> searchByIngredient(int searchIngredientId) throws Exception {
+        ArrayList<Recipe> recipes = new ArrayList<>();
+        
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        
+        try {
+            connection = DBConnection.getPostgesConnection();
+    
+            // Construire la requête pour rechercher les recettes par ingrédient
+            String sql = "SELECT r.* FROM recipe r " +
+                         "JOIN recipe_ingredient ri ON r.id_recipe = ri.id_recipe " +
+                         "WHERE ri.id_ingredient = ?";
+    
+            // Préparer la requête avec les paramètres
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, searchIngredientId);
+    
+            // Exécuter la requête
+            resultSet = statement.executeQuery();
+    
+            // Récupérer les résultats
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id_recipe");
+                String title = resultSet.getString("title");
+                String description = resultSet.getString("recipe_description");
+                int idCategory = resultSet.getInt("id_category");
+                LocalTime cookTime = resultSet.getTime("cook_time").toLocalTime();
+                String createdBy = resultSet.getString("created_by");
+                LocalDate createdDate = resultSet.getDate("created_date").toLocalDate();
+    
+                recipes.add(new Recipe(id, title, description, idCategory, cookTime, createdBy, createdDate));
+            }
+        } finally {
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
+        }
+        
+        return recipes;
+    }
+    
 
 }
