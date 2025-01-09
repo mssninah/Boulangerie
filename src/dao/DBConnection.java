@@ -6,8 +6,13 @@ import java.sql.SQLException;
 
 public class DBConnection {
 
+<<<<<<< Updated upstream
     private static final String postgres_hote = "192.168.1.173";  // Remplacez par l'adresse IP de votre hôte
     private static final String postgres_port = "5433"; // Le port par défaut de PostgreSQL est 5432
+=======
+    private static final String postgres_hote = "192.168.141.137";
+    private static final String postgres_port = "5432"; // Le port par défaut de PostgreSQL est 5432
+>>>>>>> Stashed changes
     private static final String postgres_bdd = "boulangerie";
     private static final String postgres_utilisateur = "postgres";
     private static final String postgres_mdp = "postgres";
