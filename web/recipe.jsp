@@ -151,7 +151,11 @@
                     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Gotta taste /</span> Recettes</h4>
 
                     <h5>
-                        <a href="vente">Voir les ventes</a>
+                        <form action="vente" method="get">
+                            <input type="hidden" name="action" value="list">
+                            <input type="submit" value="Voir les ventes">
+                        </form>
+                      
                     </h5>
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
