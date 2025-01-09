@@ -19,7 +19,7 @@ CREATE TABLE category (
 CREATE TABLE recipe (
     id_recipe SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    recipe_description TEXT,
+    recipe_description T EXT,
     id_category INT NOT NULL,
     cook_time TIME NOT NULL,
     created_by VARCHAR(255) NOT NULL,
