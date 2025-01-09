@@ -67,29 +67,29 @@ LEFT JOIN
 
 
 
-
-
 ALTER TABLE ingredient ADD COLUMN is_nature BOOLEAN NOT NULL DEFAULT TRUE;
-UPDATE ingredient SET is_nature = TRUE WHERE ingredient_name IN ('Flour', 'Sugar');
-UPDATE ingredient SET is_nature = FALSE WHERE ingredient_name IN ('Artificial Flavor', 'Preservatives');
+
+UPDATE ingredient
+SET is_nature = FALSE
+WHERE ingredient_name IN ('Chocolate', 'Vanilla Extract');
 
 
-CREATE VIEW recipe_nature AS
-SELECT 
-    r.id_recipe,
-    r.title,
-    CASE 
-        WHEN COUNT(i.is_nature) FILTER (WHERE i.is_nature = FALSE) > 0 THEN FALSE
-        ELSE TRUE
-    END AS is_nature
-FROM 
-    recipe r
-JOIN 
-    recipe_ingredient ri ON r.id_recipe = ri.id_recipe
-JOIN 
-    ingredient i ON ri.id_ingredient = i.id_ingredient
-GROUP BY 
-    r.id_recipe, r.title;
+CREATE OR REPLACE VIEW recipe_nature AS
+SELECT r.id_recipe,
+       r.title,
+       CASE 
+           WHEN EXISTS (
+               SELECT 1
+               FROM recipe_ingredient ri
+               JOIN ingredient i ON ri.id_ingredient = i.id_ingredient
+               WHERE ri.id_recipe = r.id_recipe
+                 AND i.is_nature = 'f'
+           ) THEN FALSE  -- If any ingredient is not nature, mark the recipe as non-nature
+           ELSE TRUE  -- If all ingredients are nature, mark the recipe as nature
+       END AS is_nature
+FROM recipe r;
+
+
 
 
 SELECT * FROM recipe_nature;
@@ -123,4 +123,4 @@ JOIN
 
 SELECT * 
 FROM vente_filtre
-WHERE category_name = 'Pâtisserie' AND is_nature = TRUE;
+WHERE category_name = 'Pastries' AND is_nature = TRUE;
