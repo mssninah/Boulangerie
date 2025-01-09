@@ -32,7 +32,7 @@ to do:
                 insert qtt
                 valider
             
-            total panier 
+             
 
 
     - but formulaire filtre liste vente 

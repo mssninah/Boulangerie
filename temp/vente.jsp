@@ -11,14 +11,14 @@
 <form method="post" action="vente">
     <div class="mb-3">
         <label class="form-label" for="categoryId">Filtrer par catégorie</label>
-        <select name="categoryId" id="categoryId" class="form-control">
+        <select name="categoryName" id="categoryName" class="form-control">
             <option value="">-- Sélectionner une catégorie --</option>
             <% 
                 ArrayList<Category> categories = (ArrayList<Category>) request.getAttribute("categories");
                 if (categories != null) {
                     for (Category category : categories) {
             %>
-                <option value="<%= category.getId() %>"><%= category.getName() %></option>
+                <option value="<%= category.getName() %>"><%= category.getName() %></option>
             <% 
                     }
                 }
@@ -115,6 +115,7 @@
                 %>
             </tbody>
         </table>
+        <a href="formvente">Ajouter Vente</a>
     </div>
 </div>
 <!--/ Sales List -->
