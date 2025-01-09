@@ -150,6 +150,9 @@
 
                     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Gotta taste /</span> Recettes</h4>
 
+                    <h5>
+                        <a href="vente">Voir les ventes</a>
+                    </h5>
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
                         <h5 class="card-header">Liste des recettes</h5>

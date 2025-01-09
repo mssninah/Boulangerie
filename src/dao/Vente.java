@@ -8,6 +8,8 @@ public class Vente {
     private int userId;
     private Timestamp venteDate;
     private double totalAmount;
+
+
     public Vente(Integer idUser, double totalAmount) {
         this.userId = idUser;  // Peut être null
         this.totalAmount = totalAmount;
@@ -124,7 +126,7 @@ public class Vente {
             String query = "UPDATE vente SET total_amount = ? WHERE id_vente = ?";
             statement = connection.prepareStatement(query);
             statement.setDouble(1, newTotalAmount);
-            statement.setInt(2, this.idVente);
+            statement.setInt(2, this.id);
             statement.executeUpdate();
         } finally {
             if (statement != null) statement.close();
@@ -167,5 +169,56 @@ public class Vente {
     
         return salesList;
     }
-    
+    public static ArrayList<String[]> getFilteredSales(boolean isNature, String categoryName) throws Exception {
+        ArrayList<String[]> filteredSales = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DBConnection.getPostgesConnection();
+            
+            // Préparer la requête pour filtrer les ventes selon la catégorie et la nature
+            String query = "SELECT v.id_vente, v.vente_date, u.firstname || ' ' || u.lastname AS user_name, " +
+                           "r.title AS recipe, c.category_name, vn.is_nature, vd.quantity, vd.unit_price, " +
+                           "(vd.quantity * vd.unit_price) AS sub_total, v.total_amount " +
+                           "FROM vente v " +
+                           "LEFT JOIN boulangerie_user u ON v.id_user = u.id_user " +
+                           "JOIN vente_details vd ON v.id_vente = vd.id_vente " +
+                           "JOIN recipe r ON vd.id_recipe = r.id_recipe " +
+                           "JOIN category c ON r.id_category = c.id_category " +
+                           "JOIN recipe_nature vn ON r.id_recipe = vn.id_recipe " +
+                           "WHERE c.category_name = ? AND vn.is_nature = ?";
+
+            // Préparer la requête avec les paramètres de filtrage
+            statement = connection.prepareStatement(query);
+            statement.setString(1, categoryName);  // Catégorie
+            statement.setBoolean(2, isNature);     // Nature (TRUE ou FALSE)
+
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String[] saleDetails = new String[10];  // Tableau pour stocker les détails de la vente
+
+                saleDetails[0] = String.valueOf(resultSet.getInt("id_vente"));
+                saleDetails[1] = resultSet.getString("vente_date");
+                saleDetails[2] = resultSet.getString("user_name");
+                saleDetails[3] = resultSet.getString("recipe");
+                saleDetails[4] = resultSet.getString("category_name");
+                saleDetails[5] = String.valueOf(resultSet.getBoolean("is_nature"));
+                saleDetails[6] = String.valueOf(resultSet.getInt("quantity"));
+                saleDetails[7] = String.valueOf(resultSet.getDouble("unit_price"));
+                saleDetails[8] = String.valueOf(resultSet.getDouble("sub_total"));
+                saleDetails[9] = String.valueOf(resultSet.getDouble("total_amount"));
+
+                filteredSales.add(saleDetails);
+            }
+        } finally {
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
+        }
+
+        return filteredSales;
+    }
 }

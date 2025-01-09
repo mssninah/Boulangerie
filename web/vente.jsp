@@ -1,16 +1,16 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="dao.Ingredient, java.util.ArrayList, util.SessionUtils" %>
+<%@ page import="dao.Ingredient, dao.Category, java.util.ArrayList, util.SessionUtils" %>
 <%
     boolean connected = SessionUtils.isUserConnected(request);
     String errorMessage = (String) request.getAttribute("errorMessage");
 %>
 
-<%@include file="header.jsp" %>
+<%@ include file="header.jsp" %>
 
 <!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
-        <%@include file="vertical-menu.jsp" %>
+        <%@ include file="vertical-menu.jsp" %>
 
         <!-- Layout container -->
         <div class="layout-page">
@@ -24,22 +24,10 @@
                         <i class="bx bx-menu bx-sm"></i>
                     </a>
                 </div>
-
                 <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-
-                    <!-- Search modal button trigger -->
-                    <button type="button" class="btn btn-icon rounded-pill btn-secondary mx-auto me-2"
-                            data-bs-toggle="modal" data-bs-target="#searchModal">
-                        <span class="tf-icons bx bx-search"></span>
-                    </button>
-                    <!-- /Search modal button trigger -->
-
-                    <ul class="navbar-nav flex-row align-items-center">
-
-                        <!-- User -->
-                        <%@ include file="user.jsp" %>
-                        <!--/ User -->
-                    </ul>
+                    <!-- User -->
+                    <%@ include file="user.jsp" %>
+                    <!--/ User -->
                 </div>
             </nav>
             <!-- / Navbar -->
@@ -48,46 +36,26 @@
             <div class="content-wrapper">
                 <!-- Content -->
                 <div class="container-xxl flex-grow-1 container-p-y">
-                    <!-- Search modal -->
-                    <div class="modal fade" id="searchModal" tabindex="-1" style="display: none;" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel1">Critères de recherche</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="GET" action="ingredient">
-                                        <div class="mb-3">
-                                            <label class="form-label" for="search-name">Date et heure de la vente</label>
-                                            <input name="searchName" type="date" class="form-control" id="search-name"
-                                                   placeholder="Date et heure de la vente" aria-label="Nom" aria-describedby="search-name">
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label" for="search-unit">Montant total de la vente</label>
-                                            <input name="searchUnit" type="text" class="form-control" id="search-unit"
-                                                   placeholder="Montant total de la vente" aria-label="Unité de mesure"
-                                                   aria-describedby="search-unit">
-                                        </div>
-                
-                                        <div class="modal-footer p-0">
-                                            <button type="reset" class="btn btn-outline-secondary"
-                                                    data-bs-dismiss="modal">
-                                                Annuler
-                                            </button>
-                                            <button type="submit" class="btn btn-primary">Valider</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Search modal -->
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Gotta taste /</span> Vente
-                    </h4>
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Gotta taste /</span> Vente</h4>
 
-                    <!-- Basic Bootstrap Table -->
+                    <!-- Category filter form -->
+                    <form method="GET" action="vente">
+                        <div class="mb-3">
+                            <label class="form-label" for="categoryId">Filtrer par catégorie</label>
+                            <select name="categoryId" id="categoryId" class="form-control">
+                                <option value="">-- Sélectionner une catégorie --</option>
+                                <% 
+                                    ArrayList<Category> categories = (ArrayList<Category>) request.getAttribute("categories");
+                                    for (Category category : categories) {
+                                %>
+                                    <option value="<%= category.getId() %>"><%= category.getName() %></option>
+                                <% } %>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Filtrer</button>
+                    </form>
+
+                    <!-- Sales List -->
                     <div class="card">
                         <h5 class="card-header">Liste des ventes</h5>
                         <div class="card-body">
@@ -103,7 +71,7 @@
                             </div>
                             <% } %>
                         </div>
-                        <div class="table-responsive text-nowrap" style="overflow-x: visible;">
+                        <div class="table-responsive text-nowrap">
                             <table class="table">
                                 <thead>
                                 <tr>
@@ -120,9 +88,12 @@
                                     <% } %>
                                 </tr>
                                 </thead>
-                                <tbody class="table-border-bottom-0">
+                                <tbody>
                                     <% 
-                                    ArrayList<String[]> list = (ArrayList<String[]>) request.getAttribute("listes_ventes");
+                                    ArrayList<String[]> list = (ArrayList<String[]>) request.getAttribute("filteredSales");
+                                    if (list == null) {
+                                        list = (ArrayList<String[]>) request.getAttribute("liste_ventes");
+                                    }
                                     for (String[] item : list) { 
                                         String id = item[0];          
                                         String daty = item[1];        
@@ -160,12 +131,11 @@
                                         <% } %>
                                     </tr>
                                     <% } %>
-                                                                    
                                 </tbody>
                             </table>
                         </div>
                     </div>
-                    <!--/ Basic Bootstrap Table -->
+                    <!--/ Sales List -->
                 </div>
                 <!-- / Content -->
             </div>
@@ -176,4 +146,4 @@
 </div>
 <!-- / Layout wrapper -->
 
-<%@include file="footer.jsp" %>
+<%@ include file="footer.jsp" %>

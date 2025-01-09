@@ -39,13 +39,13 @@
             </a>
         </li>
 
-        <!-- Ingredient -->
-        <li class="menu-item <% if (activeMenuItem.equals("ingredient")) { %>active<% } %>">
-            <a href="ingredient" class="menu-link">
+        <!-- Ingredient
+        <li class="menu-item <% if (activeMenuItem.equals("vente")) { %>active<% } %>">
+            <a href="vente" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-dish"></i>
                 <div data-i18n="Ingredients">Ingrédients</div>
             </a>
-        </li>
+        </li> -->
 
         <!-- Step -->
         <li class="menu-item <% if (activeMenuItem.equals("step")) { %>active<% } %>">
