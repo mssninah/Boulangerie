@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="dao.Recipe, java.util.ArrayList" %>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -8,6 +9,7 @@
     <title>Formulaire de Vente</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* Styles for the page */
         body {
             font-family: 'Arial', sans-serif;
             background-color: #f8f9fc;
@@ -115,7 +117,6 @@
 </head>
 <body>
 
-
     <div class="container">
         <div class="form-title">
             <h2><i class="fas fa-shopping-cart icon"></i> Créer une Vente</h2>
@@ -127,58 +128,58 @@
                 <label for="date">Date</label>
                 <input type="date" id="date" name="date" value="<%= new java.text.SimpleDateFormat("yyyy-MM-dd").format(new java.util.Date()) %>" required>
             </div>
-    
-            <!-- Table for Vente Details -->
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Recette</th>
-                            <th>Quantité</th>
-                            <th>Prix Unitaire</th>
-                            <th>Sous-total</th>
-                        </tr>
-                    </thead>
-                    <tbody id="venteDetailsTable">
-                        <tr>
-                            <td>
-                                <select name="recipeId" class="form-control" required>
-                                    <c:forEach var="recipe" items="${recipes}">
-                                        <option value="${recipe.id}">${recipe.title}</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <td>
-                                <input type="number" name="quantity" class="form-control" placeholder="Quantité" min="1" required oninput="calculateSubtotal(this)">
-                            </td>
-                            <td>
-                                <input type="number" name="unitPrice" class="form-control" placeholder="Prix Unitaire" step="0.01" required oninput="calculateSubtotal(this)">
-                            </td>
-                            <td>
-                                <input type="number" name="subtotal" class="form-control" placeholder="Sous-total" readonly>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-    
-                <div class="form-group">
-                    <button type="button" onclick="addRow()" class="submit-btn">Ajouter une ligne</button>
-                </div>
+                                            
+            <div class="form-group">
+                <label for="recipeId">Recette</label>
+                <select name="recipeId" class="form-control" required>
+                    <% 
+                        ArrayList<Recipe> recipes = (ArrayList<Recipe>) request.getAttribute("recipes");
+                        if (recipes != null) {
+                            for (Recipe recipe : recipes) {
+                    %>
+                        <option value="<%= recipe.getId() %>"><%= recipe.getTitle() %></option>
+                    <% 
+                            }
+                        }
+                    %>
+                </select>
             </div>
-    
+        
+            <!-- Quantity -->
+            <div class="form-group">
+                <label for="quantity">Quantité</label>
+                <input type="number" name="quantity" class="form-control" placeholder="Quantité" min="1" required oninput="calculateSubtotal(this)">
+            </div>
+
+            <!-- Unit Price -->
+            <div class="form-group">
+                <label for="unitPrice">Prix Unitaire</label>
+                <input type="number" name="unitPrice" class="form-control" placeholder="Prix Unitaire" step="0.01" required oninput="calculateSubtotal(this)">
+            </div>
+
+            <!-- Subtotal -->
+            <div class="form-group">
+                <label for="subtotal">Sous-total</label>
+                <input type="number" name="subtotal" class="form-control" placeholder="Sous-total" readonly>
+            </div>
+
+            <div class="form-group">
+                <button type="button" onclick="addRow()" class="submit-btn">Ajouter une ligne</button>
+            </div>
+        
             <!-- Submit Button -->
             <div class="form-group">
                 <button type="submit" class="submit-btn">Créer Vente</button>
             </div>
         </form>
+        
     </div>
     
     <script>
         function calculateSubtotal(input) {
-            let row = input.closest('tr');
-            let quantity = row.querySelector('input[name="quantity"]').value;
-            let unitPrice = row.querySelector('input[name="unitPrice"]').value;
-            let subtotalField = row.querySelector('input[name="subtotal"]');
+            let quantity = document.querySelector('input[name="quantity"]').value;
+            let unitPrice = document.querySelector('input[name="unitPrice"]').value;
+            let subtotalField = document.querySelector('input[name="subtotal"]');
     
             if (quantity && unitPrice) {
                 let subtotal = parseFloat(quantity) * parseFloat(unitPrice);
@@ -199,5 +200,5 @@
         }
     </script>
     
-    </body>
+</body>
 </html>

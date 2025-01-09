@@ -31,9 +31,7 @@ public class FormVenteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            String action = req.getParameter("action");
-
-            if ("create".equals(action)) {
+           
                 // Récupérer l'ID de l'utilisateur. Si l'utilisateur est nul, on passe null.
                 Integer userId = req.getParameter("userId") != null ? Integer.parseInt(req.getParameter("userId")) : 0;
                 double totalAmount = 0;  // initialement à 0
@@ -65,7 +63,7 @@ public class FormVenteServlet extends HttpServlet {
                 vente.updateTotalAmount(calculatedTotalAmount);
 
                 resp.sendRedirect("vente?action=list");  // Rediriger vers la liste des ventes
-            }
+            
         } catch (Exception e) {
             throw new ServletException(e);
         }
