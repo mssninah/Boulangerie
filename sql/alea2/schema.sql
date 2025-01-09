@@ -7,7 +7,6 @@ CREATE TABLE vente (
 );
 
 
-
 CREATE TABLE vente_details (
     id_vente INT NOT NULL,              -- Identifiant de la vente (clé étrangère)
     id_recipe INT NOT NULL,             -- Identifiant de la recette vendue (clé étrangère)
