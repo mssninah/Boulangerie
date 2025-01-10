@@ -35,6 +35,8 @@ cp "$lib"/*.jar "$temp/WEB-INF/lib"
 # Copier la structure de dossier de [src] dans WEB-INF/classes
 rsync -av --include '*/' --exclude '*' "$src/" "$temp/WEB-INF/classes"
 
+# Copier le fichier hikari.properties dans WEB-INF/classes
+cp "$work_dir/src/main/resources/hikari.properties" "$temp/WEB-INF/classes/"
 
 # Configuration JDK pour Java 11
 export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
@@ -64,7 +66,6 @@ EXPOSE 8080
 # Lancer Tomcat
 CMD ["catalina.sh", "run"]
 EOF
-
 
 # Construire l'image Docker
 docker build -t $docker_image_name .
