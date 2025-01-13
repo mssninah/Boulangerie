@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="dao.Recipe, dao.Category, java.util.ArrayList, util.SessionUtils" %>
+<%@ page import="dao.Recipe, dao.Ingredient,dao.Category, java.util.ArrayList, util.SessionUtils" %>
 <% boolean connected = SessionUtils.isUserConnected(request); %>
 
 <%@include file="header.jsp"%>
@@ -78,6 +78,18 @@
                                                 </option>
                                                 <% } %>
                                             </select>
+                                            <label class="form-label for="searchIngredient">Ingrédient :</label>
+                                                <select class="form-select" id="searchIngredient" name="searchIngredient">
+                                                    <option value="0">Tous</option>
+                                                    <% 
+                                                    ArrayList<Ingredient> ingredients = Ingredient.all();
+                                                    for (Ingredient ingredient : ingredients) {
+                                                    %>
+                                                        <option value="<%= ingredient.getId() %>"><%= ingredient.getName() %></option>
+                                                    <% 
+                                                    } 
+                                                    %>
+                                            </select>
                                         </div>
                                         <div class="row g-2 mb-3">
                                             <div class="col mb-0">
@@ -121,6 +133,7 @@
                                                        aria-describedby="search-max-creation-date">
                                             </div>
                                         </div>
+
                                         <div class="modal-footer p-0">
                                             <button type="reset" class="btn btn-outline-secondary"
                                                     data-bs-dismiss="modal">
@@ -137,6 +150,13 @@
 
                     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Gotta taste /</span> Recettes</h4>
 
+                    <h5>
+                        <form action="vente" method="get">
+                            <input type="hidden" name="action" value="list">
+                            <input type="submit" value="Voir les ventes">
+                        </form>
+                      
+                    </h5>
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
                         <h5 class="card-header">Liste des recettes</h5>

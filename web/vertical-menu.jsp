@@ -10,7 +10,7 @@
                       <span class="app-brand-logo demo">
                         <img width="25" src="assets/img/favicon/mofo.png" alt="Gotta taste logo">
                       </span>
-            <span class="app-brand-text demo menu-text fw-bolder ms-2">Mofoko</span>
+            <span class="app-brand-text demo menu-text fw-bolder ms-2">Cooking mama</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -22,14 +22,8 @@
     <div class="menu-inner-shadow"></div>
 
     <ul class="menu-inner py-1">
-        <!-- Recipe -->
-        <li class="menu-item <% if (activeMenuItem.equals("produit")) { %>active<% } %>">
-            <a href="recipe" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-book"></i>
-                <div data-i18n="Produit">Produit</div>
-            </a>
-        </li>
-        <%-- <!-- Recipe -->
+       
+         <!-- Recipe -->
         <li class="menu-item <% if (activeMenuItem.equals("recipe")) { %>active<% } %>">
             <a href="recipe" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book"></i>
@@ -45,13 +39,13 @@
             </a>
         </li>
 
-        <!-- Ingredient -->
-        <li class="menu-item <% if (activeMenuItem.equals("ingredient")) { %>active<% } %>">
-            <a href="ingredient" class="menu-link">
+        <!-- Ingredient
+        <li class="menu-item <% if (activeMenuItem.equals("vente")) { %>active<% } %>">
+            <a href="vente" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-dish"></i>
                 <div data-i18n="Ingredients">Ingrédients</div>
             </a>
-        </li>
+        </li> -->
 
         <!-- Step -->
         <li class="menu-item <% if (activeMenuItem.equals("step")) { %>active<% } %>">
@@ -60,6 +54,14 @@
                 <div data-i18n="Steps">Etapes</div>
             </a>
         </li>
+         <!-- Step -->
+         <li class="menu-item <% if (activeMenuItem.equals("step")) { %>active<% } %>">
+            <a href="step" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-book-open"></i>
+                <div data-i18n="Steps">Ventes</div>
+            </a>
+        </li>
+
 
         <!-- Review -->
         <li class="menu-item <% if (activeMenuItem.equals("review")) { %>active<% } %>">
@@ -67,6 +69,6 @@
                 <i class="menu-icon tf-icons bx bxs-star-half"></i>
                 <div data-i18n="Reviews">Retours</div>
             </a>
-        </li> --%>
+        </li> 
     </ul>
 </aside>

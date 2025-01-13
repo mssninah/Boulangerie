@@ -15,16 +15,18 @@ CREATE TABLE category (
     category_name VARCHAR(255) NOT NULL
 );
 
+
 CREATE TABLE recipe (
     id_recipe SERIAL PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
-    recipe_description TEXT,
+    recipe_description T EXT,
     id_category INT NOT NULL,
     cook_time TIME NOT NULL,
     created_by VARCHAR(255) NOT NULL,
     created_date DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (id_category) REFERENCES category(id_category)
 );
+
 
 CREATE TABLE ingredient (
     id_ingredient SERIAL PRIMARY KEY,
