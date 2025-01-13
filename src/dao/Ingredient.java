@@ -286,5 +286,46 @@ public class Ingredient {
     public String toString() {
         return "Ingredient [id=" + id + ", name=" + name + ", unit=" + unit + ", price=" + price + "]";
     }
-  
+    public static ArrayList<Ingredient> liste_parfum() throws Exception {
+        ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
+
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = DBConnection.getPostgesConnection();
+            statement = connection.prepareStatement(
+                "SELECT * FROM ingredient_parfum"
+            );
+            resultSet = statement.executeQuery();
+
+            int id;
+            String name;
+            String unit;
+            int price;
+            while (resultSet.next()) {
+                id = resultSet.getInt("id_ingredient");
+                name = resultSet.getString("ingredient_name");
+                unit = resultSet.getString("unit");
+                price = resultSet.getInt("price");
+
+                ingredients.add(
+                    new Ingredient(id, name, unit, price)
+                );
+            }
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+
+        return ingredients;
+    }
 }

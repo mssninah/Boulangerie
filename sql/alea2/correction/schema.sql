@@ -39,3 +39,10 @@ WHERE
 
 
 SELECT * FROM get_actual_price;
+
+
+
+CREATE VIEW ingredient_parfum AS 
+SELECT * 
+FROM ingredient 
+WHERE is_nature = FALSE;

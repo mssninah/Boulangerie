@@ -147,7 +147,7 @@
                                     %>
                                 </tbody>
                             </table>
-                            <a href="formvente">Ajouter Vente</a>
+                            <!-- <a href="formvente">Ajouter Vente</a> -->
                         </div>
                     </div>
                     <!--/ Sales List -->
