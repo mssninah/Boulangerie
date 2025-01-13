@@ -142,23 +142,36 @@ public class Vente {
     
         try {
             connection = DBConnection.getPostgesConnection();
-            String query = "SELECT id_vente, vente_date, user_name, id_recipe, recipe_name, qtt, pu, sub_total, total_vente " +
-                           "FROM liste_ventes";
+            String query = "SELECT v.id_vente, v.vente_date, u.firstname || ' ' || u.lastname AS user_name, " +
+                           "r.title AS recipe, c.category_name, vn.is_nature, vd.quantity, vd.unit_price, " +
+                           "(vd.quantity * vd.unit_price) AS sub_total, v.total_amount " +
+                           "FROM vente v " +
+                           "LEFT JOIN boulangerie_user u ON v.id_user = u.id_user " +
+                           "JOIN vente_details vd ON v.id_vente = vd.id_vente " +
+                           "JOIN recipe r ON vd.id_recipe = r.id_recipe " +
+                           "JOIN category c ON r.id_category = c.id_category " +
+                           "JOIN recipe_nature vn ON r.id_recipe = vn.id_recipe " +
+                           "ORDER BY v.id_vente";
+    
             statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery();
     
             while (resultSet.next()) {
-                String[] saleDetails = new String[9];
-                saleDetails[0] = String.valueOf(resultSet.getInt("id_vente"));
-                saleDetails[1] = resultSet.getString("vente_date");
-                saleDetails[2] = resultSet.getString("user_name");
-                saleDetails[3] = String.valueOf(resultSet.getInt("id_recipe"));
-                saleDetails[4] = resultSet.getString("recipe_name");
-                saleDetails[5] = String.valueOf(resultSet.getInt("qtt"));
-                saleDetails[6] = String.valueOf(resultSet.getDouble("pu"));
-                saleDetails[7] = String.valueOf(resultSet.getDouble("sub_total"));
-                saleDetails[8] = String.valueOf(resultSet.getDouble("total_vente"));
+                String[] saleDetails = new String[10];  // Array to store sale details
     
+                // Populate the sale details array
+                saleDetails[0] = String.valueOf(resultSet.getInt("id_vente"));       // Sale ID
+                saleDetails[1] = resultSet.getString("vente_date");                  // Sale Date
+                saleDetails[2] = resultSet.getString("user_name");                   // User's full name
+                saleDetails[3] = resultSet.getString("recipe");                      // Recipe title
+                saleDetails[4] = resultSet.getString("category_name");               // Category name
+                saleDetails[5] = String.valueOf(resultSet.getBoolean("is_nature"));  // Nature (true/false)
+                saleDetails[6] = String.valueOf(resultSet.getInt("quantity"));       // Quantity
+                saleDetails[7] = String.valueOf(resultSet.getDouble("unit_price"));  // Unit price
+                saleDetails[8] = String.valueOf(resultSet.getDouble("sub_total"));  // Sub-total (quantity * unit price)
+                saleDetails[9] = String.valueOf(resultSet.getDouble("total_amount"));// Total amount for the sale
+    
+                // Add the sale details to the list
                 salesList.add(saleDetails);
             }
         } finally {
@@ -169,12 +182,13 @@ public class Vente {
     
         return salesList;
     }
+    
     public static ArrayList<String[]> getFilteredSales(boolean isNature, String categoryName) throws Exception {
         ArrayList<String[]> filteredSales = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-
+    
         try {
             connection = DBConnection.getPostgesConnection();
             
@@ -189,17 +203,18 @@ public class Vente {
                            "JOIN category c ON r.id_category = c.id_category " +
                            "JOIN recipe_nature vn ON r.id_recipe = vn.id_recipe " +
                            "WHERE c.category_name = ? AND vn.is_nature = ?";
-
+    
             // Préparer la requête avec les paramètres de filtrage
             statement = connection.prepareStatement(query);
             statement.setString(1, categoryName);  // Catégorie
             statement.setBoolean(2, isNature);     // Nature (TRUE ou FALSE)
-
+    
             resultSet = statement.executeQuery();
-
+    
             while (resultSet.next()) {
                 String[] saleDetails = new String[10];  // Tableau pour stocker les détails de la vente
-
+    
+                // Remplir le tableau avec les données
                 saleDetails[0] = String.valueOf(resultSet.getInt("id_vente"));
                 saleDetails[1] = resultSet.getString("vente_date");
                 saleDetails[2] = resultSet.getString("user_name");
@@ -210,7 +225,8 @@ public class Vente {
                 saleDetails[7] = String.valueOf(resultSet.getDouble("unit_price"));
                 saleDetails[8] = String.valueOf(resultSet.getDouble("sub_total"));
                 saleDetails[9] = String.valueOf(resultSet.getDouble("total_amount"));
-
+    
+                // Ajouter les détails à la liste
                 filteredSales.add(saleDetails);
             }
         } finally {
@@ -218,7 +234,64 @@ public class Vente {
             if (statement != null) statement.close();
             if (connection != null) connection.close();
         }
-
+    
         return filteredSales;
     }
+    public static ArrayList<String[]> getFilteredparfum(int ingredientId, String categoryName) throws Exception {
+        ArrayList<String[]> filteredSales = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+    
+        try {
+            connection = DBConnection.getPostgesConnection();
+    
+            // SQL query to get sales related to recipes containing the specific ingredient and category
+            String query = "SELECT v.id_vente, v.vente_date, u.firstname || ' ' || u.lastname AS user_name, " +
+                           "r.title AS recipe, c.category_name, vn.is_nature, vd.quantity, vd.unit_price, " +
+                           "(vd.quantity * vd.unit_price) AS sub_total, v.total_amount " +
+                           "FROM vente v " +
+                           "LEFT JOIN boulangerie_user u ON v.id_user = u.id_user " +
+                           "JOIN vente_details vd ON v.id_vente = vd.id_vente " +
+                           "JOIN recipe r ON vd.id_recipe = r.id_recipe " +
+                           "JOIN category c ON r.id_category = c.id_category " +
+                           "JOIN recipe_nature vn ON r.id_recipe = vn.id_recipe " +
+                           "JOIN recipe_ingredient ri ON r.id_recipe = ri.id_recipe " +
+                           "JOIN ingredient i ON ri.id_ingredient = i.id_ingredient " +
+                           "WHERE c.category_name = ? AND i.id_ingredient = ?";
+    
+            // Préparer la requête avec les paramètres de filtrage
+            statement = connection.prepareStatement(query);
+            statement.setString(1, categoryName);  // Catégorie
+            statement.setInt(2, ingredientId);     // ID de l'ingrédient
+    
+            resultSet = statement.executeQuery();
+    
+            while (resultSet.next()) {
+                String[] saleDetails = new String[10];  // Tableau pour stocker les détails de la vente
+    
+                // Remplir le tableau avec les données
+                saleDetails[0] = String.valueOf(resultSet.getInt("id_vente"));
+                saleDetails[1] = resultSet.getString("vente_date");
+                saleDetails[2] = resultSet.getString("user_name");
+                saleDetails[3] = resultSet.getString("recipe");
+                saleDetails[4] = resultSet.getString("category_name");
+                saleDetails[5] = String.valueOf(resultSet.getBoolean("is_nature"));
+                saleDetails[6] = String.valueOf(resultSet.getInt("quantity"));
+                saleDetails[7] = String.valueOf(resultSet.getDouble("unit_price"));
+                saleDetails[8] = String.valueOf(resultSet.getDouble("sub_total"));
+                saleDetails[9] = String.valueOf(resultSet.getDouble("total_amount"));
+    
+                // Ajouter les détails à la liste
+                filteredSales.add(saleDetails);
+            }
+        } finally {
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
+        }
+    
+        return filteredSales;
+    }
+        
 }

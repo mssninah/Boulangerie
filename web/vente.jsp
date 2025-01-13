@@ -59,9 +59,21 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="isNature">Filtrer par Nature</label>
-                            <input type="checkbox" name="isNature" id="isNature" value="true" class="form-check-input">
-                            <label class="form-check-label" for="isNature">Nature</label>
+                            <label class="form-label" for="parfum">Filtrer par Parfum</label>
+                            <select name="parfum" id="parfum" class="form-control">
+                                <option value="">-- Sélectionner un parfum --</option>
+                                <option value="nature">Nature</option> <!-- Add option for Nature -->
+                                <% 
+                                    ArrayList<Ingredient> parfums = (ArrayList<Ingredient>) request.getAttribute("parfum");
+                                    if (parfums != null) {
+                                        for (Ingredient parfum : parfums) {
+                                %>
+                                <option value="<%= parfum.getId() %>"><%= parfum.getName() %></option>
+                                <% 
+                                        }
+                                    }
+                                %>
+                            </select>
                         </div>
                         <button type="submit" class="btn btn-primary">Filtrer</button>
                     </form>
@@ -86,68 +98,48 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>id vente</th>
                                         <th>Date de la vente</th>
                                         <th>Nom de l'user</th>
                                         <th>Nom du produit</th>
+                                        <th>Nom de la Categorie</th>
                                         <th>Quantité</th>
                                         <th>Unite price</th>
-                                        <th>Total</th>
-                                        <% if (connected) { %>
-                                            <th>Actions</th>
-                                        <% } %>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <% 
-                                        ArrayList<String[]> list = (ArrayList<String[]>) request.getAttribute("filteredSales");
-                                        if (list == null) {
-                                            list = (ArrayList<String[]>) request.getAttribute("liste_ventes");
-                                        }
-                                        if (list != null) {
-                                            for (String[] item : list) { 
-                                                String id = item[0];          
-                                                String daty = item[1];        
-                                                String nom_user = item[2];    
-                                                String nom_produit = item[3]; 
-                                                String quantite = item[4];    
-                                                String unit_price = item[5];  
-                                                String total = item[6];      
-                                    %>
+                                <% 
+                                    ArrayList<String[]> list = (ArrayList<String[]>) request.getAttribute("filteredSales");
+                                    if (list == null) {
+                                        list = (ArrayList<String[]>) request.getAttribute("liste_ventes");
+                                    }
+                                    if (list != null) {
+                                        for (String[] item : list) { 
+                                            String id = item[0];          // Sale ID
+                                            String daty = item[1];        // Sale Date
+                                            String nom_user = item[2];    // User's full name
+                                            String nom_produit = item[3]; // Recipe name (product name)
+                                            String nom_categorie = item[4]; // Category name
+                                            String quantite = item[6];    // Quantity
+                                            String unit_price = item[7];  // Unit price
+                                            String sub_total = item[8];   // Sub-total
+                                %>
                                     <tr>
                                         <td><strong><%= id %></strong></td>
                                         <td><%= daty %></td>              
                                         <td><%= nom_user %></td>          
                                         <td><%= nom_produit %></td>        
+                                        <td><%= nom_categorie %></td>    <!-- Corrected to category name -->
                                         <td><%= quantite %></td>         
-                                        <td><%= unit_price %> Ar</td>     
-                                        <td><%= total %> Ar</td>         
-                                        <% if (connected) { %>
-                                        <td>
-                                            <div class="dropdown">
-                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                                                    <i class="bx bx-dots-vertical-rounded"></i>
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="form-ingredient?action=update&id=<%= id %>">
-                                                        <i class="bx bx-edit-alt me-1"></i> Modifier
-                                                    </a>
-                                                    <a class="dropdown-item" href="ingredient?action=delete&id=<%= id %>">
-                                                        <i class="bx bx-trash me-1"></i> Supprimer
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <% } %>
+                                        <td><%= unit_price %> </td>     
+                                        <td><%= sub_total %> Euro</td>  <!-- Corrected to sub_total -->
                                     </tr>
-                                    <% 
-                                            }
+                                <% 
                                         }
-                                    %>
+                                    }
+                                %>
                                 </tbody>
                             </table>
-                            <!-- <a href="formvente">Ajouter Vente</a> -->
                         </div>
                     </div>
                     <!--/ Sales List -->
