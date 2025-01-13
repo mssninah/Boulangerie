@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class FormVenteServlet extends HttpServlet {
@@ -51,11 +52,16 @@ public class FormVenteServlet extends HttpServlet {
             String[] recipeIds = req.getParameterValues("recipeId");
             String[] quantities = req.getParameterValues("quantity");
             String[] unitPrices = req.getParameterValues("unitPrice");
-    
+            
+            // Log pour débogage
+            System.out.println("recipeIds: " + Arrays.toString(recipeIds));
+            System.out.println("quantities: " + Arrays.toString(quantities));
+            System.out.println("unitPrices: " + Arrays.toString(unitPrices));
             if (recipeIds != null && quantities != null && unitPrices != null) {
                 double calculatedTotalAmount = 0.0;
     
                 for (int i = 0; i < recipeIds.length; i++) {
+
                     // Validation des données récupérées depuis le formulaire
                     int recipeId = Integer.parseInt(recipeIds[i]);
                     int quantity = Integer.parseInt(quantities[i]);

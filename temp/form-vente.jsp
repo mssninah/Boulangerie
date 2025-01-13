@@ -33,7 +33,7 @@
                                     <h5 class="mb-0">Vente</h5>
                                 </div>
                                 <div class="card-body">
-                                    <form action="sales" method="POST">
+                                    <form action="formvente" method="post">
                                         <div class="mb-3">
                                             <label for="saleDate" class="form-label">Date de vente</label>
                                             <input type="date" id="saleDate" name="date" class="form-control" required>
