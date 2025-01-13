@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mofoko login</title>
+    <title>Cooking Mama login</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico"/>
@@ -50,11 +50,11 @@
                     <span class="app-brand-logo demo">
                       <img width="25" src="assets/img/favicon/mofo.png" alt="Gotta taste logo">
                     </span>
-                            <span class="app-brand-text demo text-body fw-bolder">Mofoko</span>
+                            <span class="app-brand-text demo text-body fw-bolder">Cooking Mama</span>
                         </a>
                     </div>
                     <!-- /Logo -->
-                    <h4 class="mb-2">Bienvenu chez Mofoko ! </h4>
+                    <h4 class="mb-2">Bienvenu chez Cooking Mama ! </h4>
                     <p class="mb-4">Veuillez vous connecter à votre compte</p>
 
                     <form id="formAuthentication" class="mb-3" action="login" method="POST">
@@ -67,7 +67,7 @@
                         <div class="mb-3">
                             <label for="userEmail" class="form-label">Email</label>
                             <input
-                                    value="tiarintsoa@gmail.com"
+                                    value="ninahx_x@cook.com"
                                     type="text"
                                     class="form-control"
                                     id="userEmail"
@@ -81,7 +81,7 @@
                             <label class="form-label" for="userPassword">Mot de passe</label>
                             <div class="input-group input-group-merge">
                                 <input
-                                        value="12345678"
+                                        value="password123"
                                         type="password"
                                         id="userPassword"
                                         class="form-control"

@@ -29,6 +29,16 @@
 
 
   <!-- Servlet name definition -->
+
+ <servlet>
+    <servlet-class>servlet.FormVenteServlet</servlet-class>
+    <servlet-name>FormVenteServlet</servlet-name>
+  </servlet>
+   <servlet>
+    <servlet-class>servlet.VenteServlet</servlet-class>
+    <servlet-name>VenteServlet</servlet-name>
+  </servlet>
+  
   <servlet>
     <servlet-class>servlet.RecipeServlet</servlet-class>
     <servlet-name>RecipeServlet</servlet-name>
@@ -106,6 +116,16 @@
 
 
   <!-- Servlet mapping -->
+
+  <servlet-mapping>
+    <servlet-name>FormVenteServlet</servlet-name>
+    <url-pattern>/formvente</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>VenteServlet</servlet-name>
+    <url-pattern>/vente</url-pattern>
+  </servlet-mapping>
+
   <servlet-mapping>
     <servlet-name>RecipeServlet</servlet-name>
     <url-pattern>/recipe</url-pattern>
