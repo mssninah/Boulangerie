@@ -33,8 +33,17 @@ cp "$lib"/*.jar "$temp/WEB-INF/lib"
 # Copier la structure de dossier de [src] dans WEB-INF/classes
 rsync -av --include '*/' --exclude '*' "$src/" "$temp/WEB-INF/classes"
 
+<<<<<<< Updated upstream
 # Assurez-vous que le chemin vers le JDK 8 est correctement configuré
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+=======
+# Copier le fichier hikari.properties dans WEB-INF/clé dans un emplacement accessible par le classpath de ton application, comme WEB-INF/classes/ dans un fichier WAR.
+La commande cp dans le script de déploiement permet de garantir que le fichier de configuration se trouve au bon endroit (WEB-INF/classes/) afin quasses
+cp "$work_dir/src/main/resources/hikari.properties" "$temp/WEB-INF/classes/"
+
+# Configuration JDK pour Java 11
+export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+>>>>>>> Stashed changes
 export PATH=$JAVA_HOME/bin:$PATH
 
 # Compilation des fichiers .java dans [src]
