@@ -24,7 +24,7 @@
     <ul class="menu-inner py-1">
        
          <!-- Recipe -->
-        <li class="menu-item <% if (activeMenuItem.equals("recipe")) { %>active<% } %>">
+        <li class="menu-item ">
             <a href="recipe" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book"></i>
                 <div data-i18n="Recipies">Recettes</div>
@@ -32,7 +32,7 @@
         </li>
 
         <!-- Category -->
-        <li class="menu-item <% if (activeMenuItem.equals("category")) { %>active<% } %>">
+        <li class="menu-item ">
             <a href="category" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-category"></i>
                 <div data-i18n="Categories">Catégories</div>
@@ -40,7 +40,7 @@
         </li>
 
         <!-- Ingredient
-        <li class="menu-item <% if (activeMenuItem.equals("vente")) { %>active<% } %>">
+        <li class="menu-item ">
             <a href="vente" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-dish"></i>
                 <div data-i18n="Ingredients">Ingrédients</div>
@@ -48,23 +48,25 @@
         </li> -->
 
         <!-- Step -->
-        <li class="menu-item <% if (activeMenuItem.equals("step")) { %>active<% } %>">
+        <li class="menu-item ">
             <a href="step" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book-open"></i>
                 <div data-i18n="Steps">Etapes</div>
             </a>
         </li>
-         <!-- Step -->
-         <li class="menu-item <% if (activeMenuItem.equals("step")) { %>active<% } %>">
-            <a href="step" class="menu-link">
+
+
+         <!-- Vente -->
+         <li class="menu-item">
+            <a href="formvente" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book-open"></i>
-                <div data-i18n="Steps">Ventes</div>
+                <div data-i18n="Ventes">Ventes</div>
             </a>
         </li>
 
 
         <!-- Review -->
-        <li class="menu-item <% if (activeMenuItem.equals("review")) { %>active<% } %>">
+        <li class="menu-item">
             <a href="review" class="menu-link">
                 <i class="menu-icon tf-icons bx bxs-star-half"></i>
                 <div data-i18n="Reviews">Retours</div>

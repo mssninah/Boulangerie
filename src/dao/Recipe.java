@@ -21,7 +21,9 @@ public class Recipe {
     private LocalTime cookTime = LocalTime.of(0, 0, 0);
     private String createdBy = "";
     private LocalDate createdDate = LocalDate.now();
+    private double price;
 
+    
     private static final DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
     private static final DateTimeFormatter humanTimeFormatter = new DateTimeFormatterBuilder()
             .appendPattern("H")
@@ -49,6 +51,44 @@ public class Recipe {
         this.createdBy = createdBy;
         this.createdDate = createdDate;
     }
+    public static double getRecipePrice(int recipeId) throws Exception {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        double price = 0.0;
+    
+        try {
+            // Assuming DBConnection.getPostgesConnection() is a method to establish a connection
+            connection = DBConnection.getPostgesConnection();
+            
+            // Modify SQL query to fetch the actual_price from the get_actual_price view
+            String sql = "SELECT actual_price "
+                       + "FROM get_actual_price "
+                       + "WHERE id_recipe = ?";
+            
+            // Prepare the statement with the SQL query
+            statement = connection.prepareStatement(sql);
+            
+            // Set the recipeId parameter
+            statement.setInt(1, recipeId);
+            
+            // Execute the query
+            resultSet = statement.executeQuery();
+    
+            // Check if a result is returned and retrieve the actual_price
+            if (resultSet.next()) {
+                price = resultSet.getDouble("actual_price");
+            }
+        } finally {
+            // Ensure resources are closed
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
+        }
+    
+        return price;
+    }
+    
 
     public Recipe(int id, String title, String description, int idCategory, LocalTime cookTime, String createdBy,
             LocalDate createdDate) {
@@ -530,118 +570,6 @@ public class Recipe {
     return recipes;
 }
 
-    // public static ArrayList<Recipe> search(
-    //     String searchTitle,
-    //     String searchDescription,
-    //     int searchIdCategory,
-    //     LocalTime minCookTime,
-    //     LocalTime maxCookTime,
-    //     String searchCreator,
-    //     LocalDate minCreationDate,
-    //     LocalDate maxCreationDate,
-    //     int searchIngredientId // No change here, keep it as int
-    // ) throws Exception {
-    //     ArrayList<Recipe> recipes = new ArrayList<>();
-    
-    //     Connection connection = null;
-    //     PreparedStatement statement = null;
-    //     ResultSet resultSet = null;
-    
-    //     try {
-    //         connection = DBConnection.getPostgesConnection();
-    
-    //         // Build the SQL query with UNION
-    //         StringBuilder sql = new StringBuilder();
-    //         sql.append("SELECT * FROM recipe WHERE title ILIKE ?")
-    //            .append(" AND recipe_description ILIKE ?");
-    
-    //         if (searchIdCategory != 0) {
-    //             sql.append(" AND id_category = ?");
-    //         }
-    //         if (minCookTime != null) {
-    //             sql.append(" AND cook_time >= ?");
-    //         }
-    //         if (maxCookTime != null) {
-    //             sql.append(" AND cook_time <= ?");
-    //         }
-    
-    //         sql.append(" AND created_by ILIKE ?");
-    
-    //         if (minCreationDate != null) {
-    //             sql.append(" AND created_date >= ?");
-    //         }
-    //         if (maxCreationDate != null) {
-    //             sql.append(" AND created_date <= ?");
-    //         }
-    
-    //         // Si un ingrédient est spécifié, ajouter la partie UNION
-    //         if (searchIngredientId != 0) {
-    //             sql.append(" UNION (SELECT r.* FROM recipe r")
-    //                .append(" JOIN recipe_ingredient ri ON r.id_recipe = ri.id_recipe")
-    //                .append(" WHERE ri.id_ingredient = ?)");
-    //         }
-    //         // Prepare the statement with the dynamically built SQL
-    //         statement = connection.prepareStatement(sql.toString());
-    
-    //         // Set the search parameters
-    //         int paramIndex = 1;
-    //         statement.setString(paramIndex, "%" + searchTitle.toLowerCase() + "%");
-    //         paramIndex++;
-    //         statement.setString(paramIndex, "%" + searchDescription.toLowerCase() + "%");
-    //         paramIndex++;
-    //         if (searchIdCategory != 0) {
-    //             statement.setInt(paramIndex, searchIdCategory);
-    //             paramIndex++;
-    //         }
-    //         if (minCookTime != null) {
-    //             statement.setTime(paramIndex, Time.valueOf(minCookTime));
-    //             paramIndex++;
-    //         }
-    //         if (maxCookTime != null) {
-    //             statement.setTime(paramIndex, Time.valueOf(maxCookTime));
-    //             paramIndex++;
-    //         }
-    //         statement.setString(paramIndex, "%" + searchCreator.toLowerCase() + "%");
-    //         paramIndex++;
-    //         if (minCreationDate != null) {
-    //             statement.setDate(paramIndex, Date.valueOf(minCreationDate));
-    //             paramIndex++;
-    //         }
-    //         if (maxCreationDate != null) {
-    //             statement.setDate(paramIndex, Date.valueOf(maxCreationDate));
-    //             paramIndex++;
-    //         }
-    
-    //         // If ingredient ID is provided (not 0), set it in the query
-    //         if (searchIngredientId != 0) {
-    //             statement.setInt(paramIndex, searchIngredientId);
-    //         }
-    
-    //         // Execute the query
-    //         resultSet = statement.executeQuery();
-    
-    //         while (resultSet.next()) {
-    //             int id = resultSet.getInt("id_recipe");
-    //             String title = resultSet.getString("title");
-    //             String description = resultSet.getString("recipe_description");
-    //             int idCategory = resultSet.getInt("id_category");
-    //             LocalTime cookTime = resultSet.getTime("cook_time").toLocalTime();
-    //             String createdBy = resultSet.getString("created_by");
-    //             LocalDate createdDate = resultSet.getDate("created_date").toLocalDate();
-    
-    //             recipes.add(
-    //                 new Recipe(id, title, description, idCategory, cookTime, createdBy, createdDate)
-    //             );
-    //         }
-    //     } finally {
-    //         if (resultSet != null) resultSet.close();
-    //         if (statement != null) statement.close();
-    //         if (connection != null) connection.close();
-    //     }
-    
-    //     return recipes;
-    // }
-
 
     public static ArrayList<Recipe> searchByIngredient(int searchIngredientId) throws Exception {
         ArrayList<Recipe> recipes = new ArrayList<>();
@@ -684,6 +612,32 @@ public class Recipe {
         }
         
         return recipes;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getPrice()throws Exception {
+        double d= Recipe.getRecipePrice(id);
+        this.setPrice(d);
+        return d;
+    }
+
+    public static DateTimeFormatter getTimeformatter() {
+        return timeFormatter;
+    }
+
+    public static DateTimeFormatter getHumantimeformatter() {
+        return humanTimeFormatter;
+    }
+
+    public static DateTimeFormatter getDateformatter() {
+        return dateFormatter;
+    }
+
+    public static DateTimeFormatter getHumandateformatter() {
+        return humanDateFormatter;
     }
     
 

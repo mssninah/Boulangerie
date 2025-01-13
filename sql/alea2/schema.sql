@@ -18,6 +18,7 @@ CREATE TABLE vente_details (
 );
 
 
+
 INSERT INTO vente (id_user, vente_date, total_amount)
 VALUES 
     (1, '2025-01-07 10:30:00', 45.00), -- Vente 1

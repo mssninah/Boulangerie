@@ -17,9 +17,7 @@ public class VenteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            String action = req.getParameter("action");
-
-            if ("list".equals(action)) {
+                String action = req.getParameter("action");  
                 // Récupérer la liste des ventes
                 ArrayList<String[]> salesList = Vente.getSalesList();
                 req.setAttribute("liste_ventes", salesList);
@@ -29,9 +27,7 @@ public class VenteServlet extends HttpServlet {
                 req.setAttribute("categories", categories);
                 RequestDispatcher dispatcher = req.getRequestDispatcher("vente.jsp");
                 dispatcher.forward(req, resp);
-            }
-
- 
+        
             
         } catch (Exception e) {
             throw new ServletException(e);
