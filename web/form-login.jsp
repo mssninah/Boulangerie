@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cooking Mama login</title>
+    <title>Mofoko login</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico"/>
@@ -50,13 +50,16 @@
                     <span class="app-brand-logo demo">
                       <img width="25" src="assets/img/favicon/mofo.png" alt="Gotta taste logo">
                     </span>
-                            <span class="app-brand-text demo text-body fw-bolder">Cooking Mama</span>
+                            <span class="app-brand-text demo text-body fw-bolder">Mofoko</span>
                         </a>
                     </div>
                     <!-- /Logo -->
-                    <h4 class="mb-2">Bienvenu chez Cooking Mama ! </h4>
+                    <h4 class="mb-2">Bienvenu chez mofoko ! </h4>
                     <p class="mb-4">Veuillez vous connecter à votre compte</p>
 
+                    john.doe@example.com   | password123
+                    jane.smith@example.com | password456
+                    <br>
                     <form id="formAuthentication" class="mb-3" action="login" method="POST">
                         <% if ("true".equals(error)) { %>
                         <div class="alert alert-danger alert-dismissible">

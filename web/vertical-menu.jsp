@@ -10,7 +10,7 @@
                       <span class="app-brand-logo demo">
                         <img width="25" src="assets/img/favicon/mofo.png" alt="Gotta taste logo">
                       </span>
-            <span class="app-brand-text demo menu-text fw-bolder ms-2">Cooking mama</span>
+            <span class="app-brand-text demo menu-text fw-bolder ms-2">Mofoko</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -48,12 +48,12 @@
         </li> -->
 
         <!-- Step -->
-        <li class="menu-item ">
+        <%-- <li class="menu-item ">
             <a href="step" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book-open"></i>
                 <div data-i18n="Steps">Etapes</div>
             </a>
-        </li>
+        </li> --%>
 
 
             <!-- Vente -->
