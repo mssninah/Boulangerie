@@ -89,6 +89,10 @@
                                             </div>
                                         </div>
                                         <div class="mb-3">
+                                            <label for="reviewDate" class="form-label">Date</label>
+                                            <input type="date" name="reviewDate" class="form-control" id="reviewDate" required>
+                                        </div>
+                                        <div class="mb-3">
                                             <label for="reviewComment" class="form-label">Commentaire</label>
                                             <textarea name="reviewComment" class="form-control" id="reviewComment"
                                                       rows="3"

@@ -182,6 +182,29 @@
 
                     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Gotta taste /</span> Retours</h4>
 
+                        <!-- Dropdown for selecting month -->
+                    <div class="card-body">
+                        <form action="form-review" method="post" class="d-flex align-items-center mb-3">
+                            <label for="month" class="me-2">Choisir un mois :</label>
+                            <select name="month" id="month" class="form-select w-auto me-2">
+                                <option value="">Tous les mois</option>
+                                <option value="1">Janvier</option>
+                                <option value="2">Février</option>
+                                <option value="3">Mars</option>
+                                <option value="4">Avril</option>
+                                <option value="5">Mai</option>
+                                <option value="6">Juin</option>
+                                <option value="7">Juillet</option>
+                                <option value="8">Août</option>
+                                <option value="9">Septembre</option>
+                                <option value="10">Octobre</option>
+                                <option value="11">Novembre</option>
+                                <option value="12">Décembre</option>
+                            </select>
+                            Annee<input type="number" name="year">
+                            <button type="submit" class="btn btn-primary">Filtrer</button>
+                        </form>
+                    </div>
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
                         <h5 class="card-header">Liste des retours sur les plats</h5>
