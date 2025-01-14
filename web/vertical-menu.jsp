@@ -56,13 +56,14 @@
         </li>
 
 
-         <!-- Vente -->
-         <li class="menu-item">
+            <!-- Vente -->
+        <li class="menu-item">
             <a href="formvente" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-book-open"></i>
+                <i class="menu-icon tf-icons bx bx-cart"></i> <!-- Shopping cart icon -->
                 <div data-i18n="Ventes">Ventes</div>
             </a>
         </li>
+
 
 
         <!-- Review -->
