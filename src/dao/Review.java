@@ -244,13 +244,14 @@ public class Review {
             connection = DBConnection.getPostgesConnection();
             connection.setAutoCommit(false);
             statement = connection.prepareStatement(
-                "INSERT INTO review(id_user, id_recipe, rating, comment)"
-                + " VALUES (?, ?, ?, ?)"
+                "INSERT INTO review(id_user, id_recipe, rating, comment,review_date)"
+                + " VALUES (?, ?, ?, ?,?)"
             );
             statement.setInt(1, idUser);
             statement.setInt(2, idRecipe);
             statement.setInt(3, rating);
             statement.setString(4, comment);
+            statement.setDate(5, java.sql.Date.valueOf(date));
             statement.executeUpdate();
             connection.commit();
         } catch (Exception e) {
@@ -336,6 +337,7 @@ public class Review {
         }
     }
 
+    
     public int getId() {
         return id;
     }

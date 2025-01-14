@@ -69,14 +69,16 @@ public class ReviewServlet extends HttpServlet {
         int idUser = Integer.parseInt(req.getParameter("reviewIdUser"));
         int idRecipe = Integer.parseInt(req.getParameter("reviewIdRecipe"));
         int rating = Integer.parseInt(req.getParameter("reviewRating"));
+        LocalDate date = LocalDate.parse(req.getParameter("reviewDate"));
         String comment = req.getParameter("reviewComment");
-        Review review = new Review(id, idUser, idRecipe, rating, comment);
+        Review review = new Review(id, idUser, idRecipe, rating, comment,date);
 
         try {
             if (action != null && action.equals("update")) {
                 review.update();
             } else {
                 review.create();
+                // review.updateDate();
             }
         } catch (Exception e) {
             throw new ServletException(e);
