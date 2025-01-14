@@ -640,5 +640,37 @@ public class Recipe {
         return humanDateFormatter;
     }
     
-
+    public static Recipe getById(int recipeId) throws Exception {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        Recipe recipe = null;
+    
+        try {
+            connection = DBConnection.getPostgesConnection();
+            String sql = "SELECT * FROM recipe WHERE id_recipe = ?";
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, recipeId);
+            resultSet = statement.executeQuery();
+    
+            if (resultSet.next()) {
+                int id = resultSet.getInt("id_recipe");
+                String title = resultSet.getString("title");
+                String description = resultSet.getString("recipe_description");
+                int idCategory = resultSet.getInt("id_category");
+                LocalTime cookTime = resultSet.getTime("cook_time").toLocalTime();
+                String createdBy = resultSet.getString("created_by");
+                LocalDate createdDate = resultSet.getDate("created_date").toLocalDate();
+    
+                recipe = new Recipe(id, title, description, idCategory, cookTime, createdBy, createdDate);
+            }
+        } finally {
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
+        }
+    
+        return recipe;
+    }
+    
 }

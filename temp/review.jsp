@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="dao.Review, dao.User, dao.Recipe, java.util.ArrayList, util.SessionUtils" %>
+<%@ page import="dao.Review, dao.User, dao.Recipe, java.util.ArrayList, util.SessionUtils,dao.User" %>
 <%
     boolean connected = SessionUtils.isUserConnected(request);
     User connectedUser = SessionUtils.getConnectedUser(request);
@@ -194,9 +194,11 @@
                             <div class="card review">
                                 <hr>
                                 <div class="card-body">
-                                    <h5 class="card-title">ID Utilisateur : <%= review.getIdUser() %>
+                                    <% User user = User.getById(review.getIdUser());%>
+                                    <h5 class="card-title">Utilisateur : <%= user.getFirstname() %> <%= user.getLastname() %>
                                     </h5>
-                                    <div class="card-subtitle text-muted mb-3">ID Recette : <%= review.getIdRecipe() %>
+                                    <% Recipe r= Recipe.getById(review.getIdRecipe());%>
+                                    <div class="card-subtitle text-muted mb-3">Recette : <%= r.getTitle() %>
                                     </div>
                                     <div class="stars mb-2">
                                         <%

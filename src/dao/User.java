@@ -168,5 +168,40 @@ public class User {
         return "User [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
                 + ", password=" + password + "]";
     }
-
+    public static User getById(int id) throws Exception {
+        User user = null;
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+    
+        try {
+            connection = DBConnection.getPostgesConnection();
+            statement = connection.prepareStatement(
+                "SELECT * FROM boulangerie_user WHERE id_user = ?"
+            );
+            statement.setInt(1, id);
+            resultSet = statement.executeQuery();
+    
+            if (resultSet.next()) {
+                String firstname = resultSet.getString("firstname");
+                String lastname = resultSet.getString("lastname");
+                String email = resultSet.getString("email");
+                String password = resultSet.getString("user_password");
+                user = new User(id, firstname, lastname, email, password);
+            }
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    
+        return user;
+    }
+    
 }
