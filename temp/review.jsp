@@ -180,8 +180,33 @@
                     </div>
                     <!-- Search modal -->
 
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Gotta taste /</span> Retours</h4>
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Mofoko /</span> Retours</h4>
 
+                    <form method="GET" action="review">
+                        <div class="mb-3">
+                            <label for="month" class="form-label">Mois</label>
+                            <select name="month" class="form-select" id="month" required>
+                                <option value="1">Janvier</option>
+                                <option value="2">Février</option>
+                                <option value="3">Mars</option>
+                                <option value="4">Avril</option>
+                                <option value="5">Mai</option>
+                                <option value="6">Juin</option>
+                                <option value="7">Juillet</option>
+                                <option value="8">Août</option>
+                                <option value="9">Septembre</option>
+                                <option value="10">Octobre</option>
+                                <option value="11">Novembre</option>
+                                <option value="12">Décembre</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="year" class="form-label">Année</label>
+                            <input type="number" name="year" class="form-control" id="year" min="1900" max="2100" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Soumettre</button>
+                    </form>
+                    <br>
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
                         <h5 class="card-header">Liste des retours sur les plats</h5>

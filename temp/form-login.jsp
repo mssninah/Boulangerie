@@ -67,7 +67,7 @@
                         <div class="mb-3">
                             <label for="userEmail" class="form-label">Email</label>
                             <input
-                                    value="ninahx_x@cook.com"
+                                    value="john.doe@example.com"
                                     type="text"
                                     class="form-control"
                                     id="userEmail"

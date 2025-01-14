@@ -62,4 +62,4 @@ INSERT INTO step (id_recipe, step_number, instruction) VALUES
 INSERT INTO review (id_user, id_recipe, rating, comment, review_date) VALUES
     (1, 1, 5, 'A perfect baguette, just like in France!', '2024-01-15'),
     (2, 2, 4, 'The croissant was delicious, but could use more chocolate.', '2024-01-20'),
-    (3, 3, 5, 'The lemon cake was amazing! Perfect balance of sweetness and tartness.', '2024-01-25');
+    (2, 3, 5, 'The lemon cake was amazing! Perfect balance of sweetness and tartness.', '2024-01-25');
