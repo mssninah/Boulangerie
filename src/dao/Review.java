@@ -436,4 +436,44 @@ public class Review {
         this.date = date;
     }
 
+    public static ArrayList<Review> getReviewByear(String year) throws Exception {
+        ArrayList<Review> reviews = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+    
+        try {
+            connection = DBConnection.getPostgesConnection();
+            statement = connection.prepareStatement(
+                "SELECT * FROM review WHERE EXTRACT(YEAR FROM review_date) = ? ORDER BY rating DESC"
+            );
+            statement.setInt(1, Integer.parseInt(year));    // Convert year to an integer
+    
+            resultSet = statement.executeQuery();
+    
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id_review");
+                int idUser = resultSet.getInt("id_user");
+                int idRecipe = resultSet.getInt("id_recipe");
+                int rating = resultSet.getInt("rating");
+                String comment = resultSet.getString("comment");
+                LocalDate date = resultSet.getDate("review_date").toLocalDate();
+    
+                reviews.add(new Review(id, idUser, idRecipe, rating, comment, date));
+            }
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    
+        return reviews;
+    }
+
 }

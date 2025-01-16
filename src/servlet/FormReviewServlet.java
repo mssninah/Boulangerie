@@ -73,6 +73,19 @@ public class FormReviewServlet extends HttpServlet {
         System.out.println("Selected Year: " + year);
 
         try {
+            int p= Integer.parseInt(month);
+            if (p == 0) {
+ 
+                ArrayList<Review> reviews  = Review.getReviewByear(year);    
+                ArrayList<User> users = User.all();
+                ArrayList<Recipe> recipes = Recipe.all();      
+                req.setAttribute("reviews", reviews);
+                req.setAttribute("users", users);
+                req.setAttribute("recipes", recipes);
+                req.setAttribute("activeMenuItem", "review");
+                req.setAttribute("pageTitle", "Retour");
+            }
+            else{
                 ArrayList<Review> reviews  = Review.getReviewByMonth(month, year);    
                 ArrayList<User> users = User.all();
                 ArrayList<Recipe> recipes = Recipe.all();      
@@ -81,6 +94,7 @@ public class FormReviewServlet extends HttpServlet {
                 req.setAttribute("recipes", recipes);
                 req.setAttribute("activeMenuItem", "review");
                 req.setAttribute("pageTitle", "Retour");
+            }
 
             RequestDispatcher dispatcher = req.getRequestDispatcher("review.jsp");
             dispatcher.forward(req, resp);

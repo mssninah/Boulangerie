@@ -187,7 +187,7 @@
                         <form action="form-review" method="post" class="d-flex align-items-center mb-3">
                             <label for="month" class="me-2">Choisir un mois :</label>
                             <select name="month" id="month" class="form-select w-auto me-2">
-                                <option value="">Tous les mois</option>
+                                <option value="0">Tous les mois</option>
                                 <option value="1">Janvier</option>
                                 <option value="2">Février</option>
                                 <option value="3">Mars</option>
