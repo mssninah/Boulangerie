@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="dao.Ingredient, dao.Category, java.util.ArrayList, util.SessionUtils" %>
+<%@ page import="dao.Ingredient, dao.User,dao.Category, java.util.ArrayList, util.SessionUtils" %>
 <%
     boolean connected = SessionUtils.isUserConnected(request);
     String errorMessage = (String) request.getAttribute("errorMessage");
@@ -75,9 +75,31 @@
                                 %>
                             </select>
                         </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="user">Sélectionner un utilisateur</label>
+                            <select name="user" id="user" class="form-control">
+                                <option value="">-- Sélectionner un utilisateur --</option>
+                                <%
+                                    ArrayList<User> users = (ArrayList<User>) request.getAttribute("users");
+                                    if (users != null) {
+                                        for (User use : users) {
+                                %>
+                                <option value="<%= use.getId() %>"><%= use.getFirstname() %> <%= use.getLastname() %></option>
+                                <%
+                                        }
+                                    }
+                                %>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="date_vente">Sélectionner une date de vente</label>
+                            <input type="date" name="date_vente" id="date_vente" class="form-control">
+                        </div>
                         <button type="submit" class="btn btn-primary">Filtrer</button>
                     </form>
 
+
+                    
                     <!-- Sales List -->
                     <div class="card">
                         <h5 class="card-header">Liste des ventes</h5>

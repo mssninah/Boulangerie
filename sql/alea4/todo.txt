@@ -1,8 +1,38 @@
-fonctionalite : 
-    ajouter une fonctionalite liste client qui ont acheter ajourd'hui
+Voici le **to-do** complet avec les estimations de temps et les tâches nécessaires pour mettre en place la fonctionnalité qui liste les clients ayant acheté aujourd'hui, en fonction des tables `vente` et `vente_details` :
 
-    getventet(date, idclient)
+### **Estimation de temps total** : 1h
+
+---
+
+### **Tâches** :
+
+1. **Créer une vue SQL** (15 minutes)  
+   Créer une vue pour afficher les informations pertinentes des ventes :  
+   - **Vue** qui joint `vente`, `vente_details`, `boulangerie_user`, `recipe`, et `category`.
+   - Ajout de la condition de filtrage pour la date (aujourd'hui) et l'ID du client.
+
+2. **Développer la fonction `getVenteByDateAndClient`** (15 minutes)  
+   - Fonction qui récupère les ventes effectuées par un client spécifique à une date donnée.
+   - Utiliser la vue créée ci-dessus pour interroger les données et appliquer un filtre sur la date.
+
+3. **Afficher la liste des clients** (20 minutes)  
+   - Dans le code de l'interface (par exemple, page JSP ou Controller) :
+     - Récupérer les données de la fonction `getVenteByDateAndClient`.
+     - Afficher la liste des ventes pour chaque client avec les informations suivantes : date, produit, quantité, prix, etc.
+
+4. **Gérer l'affichage des erreurs et des succès** (10 minutes)  
+   - Ajouter un message d'erreur si aucune vente n'est trouvée pour la date et le client spécifiés.
+   - Ajouter une notification de succès si des résultats sont retournés.
 
 
 
+### **Tables concernées** :
+- **`vente`** : Table principale qui contient les informations sur chaque vente, incluant l'identifiant de l'utilisateur (client) et la date de la vente.
+- **`vente_details`** : Contient les détails des produits (recettes) associés à chaque vente, incluant la quantité et le prix unitaire.
+- **`boulangerie_user`** : Utilisé , obtenir les informations des clients (nom, prénom, etc.).
+- **`recipe`** : Table des recettes, , obtenir les informations sur les produits vendus.
+- **`category`** : Table des catégories de produits , associer chaque produit à une catégorie.
 
+### **Étapes supplémentaires (facultatives)** :
+- Ajouter des tests unitaires , vérifier la fonctionnalité.
+- Ajouter une gestion d'authentification , s'assurer que les utilisateurs connectés voient uniquement leurs propres ventes.

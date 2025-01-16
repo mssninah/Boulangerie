@@ -2,6 +2,7 @@ package servlet;
 
 import dao.Category;
 import dao.Ingredient;
+import dao.User;
 import dao.Vente;
 import dao.VenteDetails;
 import jakarta.servlet.RequestDispatcher;
@@ -29,6 +30,10 @@ public class VenteServlet extends HttpServlet {
                 // Retrieve all categories for the filter dropdown
                 ArrayList<Category> categories = Category.all();
                 req.setAttribute("categories", categories);
+
+                ArrayList<User> users = User.all();
+                req.setAttribute("users", users);
+
                 RequestDispatcher dispatcher = req.getRequestDispatcher("vente.jsp");
                 dispatcher.forward(req, resp);
         
@@ -45,6 +50,9 @@ public class VenteServlet extends HttpServlet {
             String value = req.getParameter("parfum");
             ArrayList<String[]> filteredSales = null;
     
+            String user = req.getParameter("user");
+            String date = req.getParameter("date_vente");
+
             // Filter sales based on the selected parfum or "nature"
             if (value != null && value.equals("nature")) {
                 filteredSales = Vente.getFilteredSales(true, categoryName); // No parfum filter
@@ -52,7 +60,15 @@ public class VenteServlet extends HttpServlet {
                 int i = Integer.parseInt(value);
                 filteredSales = Vente.getFilteredparfum(i, categoryName); // Filter by selected parfum
             }
-    
+            
+            if (user != null && !user.isEmpty()) {
+                int u = Integer.parseInt(user);  // Effectuer la conversion uniquement si la chaîne n'est pas vide
+                Vente.filteparuser(filteredSales, u);
+            }
+            
+            if (date != null && !date.isEmpty()) {
+                Vente.filtrepardate(filteredSales, date);
+            }
             // Pass filtered sales results to the view
             req.setAttribute("filteredSales", filteredSales);
             req.setAttribute("pageTitle", "Ventes Filtrées");
@@ -62,6 +78,9 @@ public class VenteServlet extends HttpServlet {
             // Retrieve all categories for the filter dropdown
             ArrayList<Category> categories = Category.all();
             req.setAttribute("categories", categories);
+
+            ArrayList<User> users = User.all();
+            req.setAttribute("users", users);
     
             // Optionally clear the session attribute "filtre"
             req.getSession().removeAttribute("filtre");

@@ -293,5 +293,23 @@ public class Vente {
     
         return filteredSales;
     }
+
+    public static void filteparuser(ArrayList<String[]> ventes, int iduser) throws Exception {
+        // Récupérer l'utilisateur en fonction de son ID
+        User u = User.getById(iduser);
+        
+        // Construire le nom complet de l'utilisateur
+        String name = u.getFirstname() + " " + u.getLastname();
+        
+        // Itérer sur la liste des ventes et supprimer celles qui ne correspondent pas au nom
+        ventes.removeIf(sale -> !sale[2].equals(name)); // sale[2] est l'index du nom complet dans chaque tableau de vente
+    }
+    
+
+    public static void filtrepardate(ArrayList<String[]> ventes, String date) throws Exception {
+        // Itérer sur la liste des ventes et supprimer celles dont la vente_date ne correspond pas
+        ventes.removeIf(sale -> !sale[1].equals(date)); // sale[1] est l'index de vente_date dans chaque tableau de vente
+    }
+    
         
 }
