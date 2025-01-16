@@ -52,21 +52,31 @@ public class VenteServlet extends HttpServlet {
     
             String user = req.getParameter("user");
             String date = req.getParameter("date_vente");
-
+ 
+            int p = 0;
             // Filter sales based on the selected parfum or "nature"
             if (value != null && value.equals("nature")) {
                 filteredSales = Vente.getFilteredSales(true, categoryName); // No parfum filter
-            } else if(value!=null){
+                p=1;
+            } else if(value!=null && !value.isEmpty()){
+                p=1;
                 int i = Integer.parseInt(value);
                 filteredSales = Vente.getFilteredparfum(i, categoryName); // Filter by selected parfum
             }
             
+
             if (user != null && !user.isEmpty()) {
+                if (p==0) {
+                    filteredSales= Vente.getSalesList();
+                }
                 int u = Integer.parseInt(user);  // Effectuer la conversion uniquement si la chaîne n'est pas vide
                 Vente.filteparuser(filteredSales, u);
             }
-            
+
             if (date != null && !date.isEmpty()) {
+                if (p==0) {
+                    filteredSales= Vente.getSalesList();
+                }
                 Vente.filtrepardate(filteredSales, date);
             }
             // Pass filtered sales results to the view

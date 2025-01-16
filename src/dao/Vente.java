@@ -295,14 +295,19 @@ public class Vente {
     }
 
     public static void filteparuser(ArrayList<String[]> ventes, int iduser) throws Exception {
+        if (ventes == null) {
+            return; // Si la liste est nulle, on ne fait rien
+        }
+    
         // Récupérer l'utilisateur en fonction de son ID
         User u = User.getById(iduser);
-        
+    
         // Construire le nom complet de l'utilisateur
         String name = u.getFirstname() + " " + u.getLastname();
-        
+    
         // Itérer sur la liste des ventes et supprimer celles qui ne correspondent pas au nom
-        ventes.removeIf(sale -> !sale[2].equals(name)); // sale[2] est l'index du nom complet dans chaque tableau de vente
+        // et celles où le nom du client est null
+        ventes.removeIf(sale -> sale[2] == null || !sale[2].equals(name)); // Vérifie si sale[2] est null ou ne correspond pas au nom
     }
     
 
