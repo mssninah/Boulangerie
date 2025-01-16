@@ -68,6 +68,7 @@ public class VenteServlet extends HttpServlet {
             if (user != null && !user.isEmpty()) {
                 if (p==0) {
                     filteredSales= Vente.getSalesList();
+                    p=1;
                 }
                 int u = Integer.parseInt(user);  // Effectuer la conversion uniquement si la chaîne n'est pas vide
                 Vente.filteparuser(filteredSales, u);
