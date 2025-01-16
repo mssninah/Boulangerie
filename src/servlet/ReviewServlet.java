@@ -39,9 +39,6 @@ public class ReviewServlet extends HttpServlet {
             String maxDateStr = req.getParameter("searchMaxDate");
             LocalDate minDate = null;
             LocalDate maxDate = null;
-
-            int month = req.getParameter("month") == null ? 0 : Integer.parseInt(req.getParameter("month"));
-            int year = req.getParameter("year") == null ? 0 : Integer.parseInt(req.getParameter("year"));
             
             if (minDateStr != null && !minDateStr.equals("")) {
                 minDate = LocalDate.parse(minDateStr);
@@ -51,14 +48,7 @@ public class ReviewServlet extends HttpServlet {
                 maxDate = LocalDate.parse(maxDateStr);
             }
 
-            ArrayList<Review> reviews = new ArrayList<>();
-            if (month != 0 && year != 0){
-                reviews = Review.getReviewMonth(month, year);
-            }
-            else{
-                reviews = Review.search(idUser, idRecipe, minMark, maxMark, comment, minDate, maxDate);
-            }
-
+            ArrayList<Review> reviews = Review.search(idUser, idRecipe, minMark, maxMark, comment, minDate, maxDate);
             req.setAttribute("reviews", reviews);
             req.setAttribute("users", users);
             req.setAttribute("recipes", recipes);
