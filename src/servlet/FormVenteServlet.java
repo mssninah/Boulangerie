@@ -49,9 +49,9 @@ public class FormVenteServlet extends HttpServlet {
             vente.setId(venteId);
     
             // Récupérer les détails de la vente (recettes, quantités, prix unitaires)
-            String[] recipeIds = req.getParameterValues("recipeId");
-            String[] quantities = req.getParameterValues("quantity");
-            String[] unitPrices = req.getParameterValues("unitPrice");
+            String[] recipeIds = req.getParameterValues("recipeId[]");
+            String[] quantities = req.getParameterValues("quantity[]");
+            String[] unitPrices = req.getParameterValues("unitPrice[]");
             
             // Log pour débogage
             System.out.println("recipeIds: " + Arrays.toString(recipeIds));

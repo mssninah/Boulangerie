@@ -1,0 +1,8 @@
+fonctionalite : 
+    ajouter une fonctionalite liste client qui ont acheter ajourd'hui
+
+    getventet(date, idclient)
+
+
+
+
