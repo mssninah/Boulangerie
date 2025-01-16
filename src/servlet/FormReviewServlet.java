@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import dao.User;
@@ -62,4 +63,29 @@ public class FormReviewServlet extends HttpServlet {
         dispatcher.forward(req, resp);
     }
 
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String month = req.getParameter("month");
+        String year = req.getParameter("year");
+
+        // Log or process the received month and year
+        System.out.println("Selected Month: " + month);
+        System.out.println("Selected Year: " + year);
+
+        try {
+                ArrayList<Review> reviews  = Review.getReviewByMonth(month, year);    
+                ArrayList<User> users = User.all();
+                ArrayList<Recipe> recipes = Recipe.all();      
+                req.setAttribute("reviews", reviews);
+                req.setAttribute("users", users);
+                req.setAttribute("recipes", recipes);
+                req.setAttribute("activeMenuItem", "review");
+                req.setAttribute("pageTitle", "Retour");
+
+            RequestDispatcher dispatcher = req.getRequestDispatcher("review.jsp");
+            dispatcher.forward(req, resp);
+        } catch (Exception e) {
+            throw new ServletException(e);
+        }
+    }
 }

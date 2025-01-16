@@ -1,51 +1,51 @@
-### Règles de gestion  
+ Règles de gestion  
 
-1. **Définition des produits du mois :**  
+1. *Définition des produits du mois :*  
    - Les produits du mois sont les recettes ayant reçu le plus de notes 5 étoiles pour un mois donné.  
    - Les avis pris en compte sont ceux créés uniquement dans le mois en cours.  
 
-2. **Critères :**  
+2. *Critères :*  
    - Chaque utilisateur peut évaluer une recette avec une note de 1 à 5 étoiles.  
    - Seules les notes de 5 étoiles sont prises en compte pour sélectionner les produits les plus conseillés.  
 
-3. **Gestion des avis :**  
+
+3. *Gestion des avis :*  
    - Les avis incluent les informations suivantes : l'utilisateur, la recette, la note (de 1 à 5), un commentaire optionnel et la date de l'avis.  
 
 ---
 
-### Table concernée  
+ Table concernée  
 
-**Table principale :**  
-- **`review`** : Contient les avis des utilisateurs sur les recettes, avec les colonnes :  
-  - `id_review` : Identifiant unique de l'avis.  
-  - `id_user` : Identifiant de l'utilisateur ayant donné l'avis.  
-  - `id_recipe` : Identifiant de la recette concernée.  
-  - `rating` : Note donnée à la recette (entre 1 et 5).  
-  - `comment` : Commentaire optionnel.  
-  - `review_date` : Date de création de l'avis.  
+*Table principale :*  
+- **review** : Contient les avis des utilisateurs sur les recettes, avec les colonnes :  
+  - id_review : Identifiant unique de l'avis.  
+  - id_user : Identifiant de l'utilisateur ayant donné l'avis.  
+  - id_recipe : Identifiant de la recette concernée.  
+  - rating : Note donnée à la recette (entre 1 et 5).  
+  - comment : Commentaire optionnel.  
+  - review_date : Date de création de l'avis.  
 
 ---
 
-### To-Do avec estimation de temps (1h30)
+ To-Do avec estimation de temps (1h30)
 
-#### 1. **DAO pour `review` (20 minutes)**  
+# 1. **DAO pour review (20 minutes)**  
 Créer un DAO pour gérer les avis :  
 - Méthode pour lister les avis d’un mois donné.  
 - Méthode pour obtenir les produits ayant le plus de notes 5 étoiles.  
 - Méthodes pour créer et mettre à jour un avis.  
 
-#### 2. **Créer la page JSP (30 minutes)**  
-- **`review.jsp`** : Afficher la liste des produits du mois avec leurs notes.  
-- **`form-review.jsp`** : Permettre aux utilisateurs de donner une note et un commentaire.  
+# 2. *Créer la page JSP (30 minutes)*  
+- **review.jsp** : Afficher la liste des produits du mois avec leurs notes.  
+- **form-review.jsp** : Permettre aux utilisateurs de donner une note et un commentaire.  
 
-#### 3. **Créer `ReviewServlet` (20 minutes)**  
+# 3. **Créer ReviewServlet (20 minutes)**  
 - Gérer les actions suivantes :  
   - Lister les avis filtrés par mois.  
   - Afficher les produits les plus conseillés du mois.  
 
-#### 4. **Créer `FormReviewServlet` (20 minutes)**  
+# 4. **Créer FormReviewServlet (20 minutes)**  
 - Gérer le formulaire pour ajouter ou mettre à jour un avis.  
 
-#### 5. **Tester et déboguer (20 minutes)**  
-- Tester les filtres, l’ajout d’avis et la sélection des produits du mois.  
-
+# 5. *Tester et déboguer (20 minutes)*  
+- Tester les filtres, l’ajout d’avis et la sélection des produits du mois.
