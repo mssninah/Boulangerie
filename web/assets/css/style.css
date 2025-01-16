@@ -1,12 +1,12 @@
 :root {
-    --pink: #ff66b2;
-    --light-pink: #ff80cc;
-    --very-light-pink: rgba(255, 128, 204, 0.16);
+    --yellow: #f1c40f;
+    --light-yellow: #f7d794;
+    --very-light-yellow: rgba(247, 215, 148, 0.16);
 
-    --add-bg-color: #ff99cc;
-    --transparent-add-bg-color: rgba(255, 153, 204, 0.4);
+    --add-bg-color: #f39c12;
+    --transparent-add-bg-color: rgba(243, 156, 18, 0.4);
 
-    --input-focus-border: #ff3399;
+    --input-focus-border: #e67e22;
 }
 
 .fs-0-5em {
@@ -28,7 +28,7 @@
 }
 
 .btn-primary:focus {
-    border-color: #ff3399;
+    --very-light-yellow: rgba(247, 215, 148, 0.16);
 }
 
 .btn-success, .btn-success:hover, .btn-success:active, .btn-success:focus {
@@ -41,7 +41,7 @@
 }
 
 .btn-success:focus {
-    border-color: #ff3399;
+    --very-light-yellow: rgba(247, 215, 148, 0.16);
 }
 
 .bg-menu-theme .menu-inner > .menu-item.active > .menu-link {

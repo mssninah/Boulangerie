@@ -7,9 +7,6 @@
     <!-- App brand -->
     <div class="app-brand demo">
         <a href="recipe" class="app-brand-link">
-                      <span class="app-brand-logo demo">
-                        <img width="25" src="assets/img/favicon/mofo.png" alt="Gotta taste logo">
-                      </span>
             <span class="app-brand-text demo menu-text fw-bolder ms-2">Mofoko</span>
         </a>
 
