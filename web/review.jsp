@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="dao.Review, dao.User, dao.Recipe, java.util.ArrayList, util.SessionUtils" %>
+<%@ page import="dao.Review, dao.User, dao.Recipe, java.util.ArrayList, util.SessionUtils,dao.User" %>
 <%
     boolean connected = SessionUtils.isUserConnected(request);
     User connectedUser = SessionUtils.getConnectedUser(request);
@@ -180,12 +180,14 @@
                     </div>
                     <!-- Search modal -->
 
-                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Mofoko /</span> Retours</h4>
+                    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Gotta taste /</span> Retours</h4>
 
-                    <form method="GET" action="review">
-                        <div class="mb-3">
-                            <label for="month" class="form-label">Mois</label>
-                            <select name="month" class="form-select" id="month" required>
+                        <!-- Dropdown for selecting month -->
+                    <div class="card-body">
+                        <form action="form-review" method="post" class="d-flex align-items-center mb-3">
+                            <label for="month" class="me-2">Choisir un mois :</label>
+                            <select name="month" id="month" class="form-select w-auto me-2">
+                                <option value="0">Tous les mois</option>
                                 <option value="1">Janvier</option>
                                 <option value="2">Février</option>
                                 <option value="3">Mars</option>
@@ -199,14 +201,10 @@
                                 <option value="11">Novembre</option>
                                 <option value="12">Décembre</option>
                             </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="year" class="form-label">Année</label>
-                            <input type="number" name="year" class="form-control" id="year" min="1900" max="2100" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Soumettre</button>
-                    </form>
-                    <br>
+                            Annee<input type="number" name="year">
+                            <button type="submit" class="btn btn-primary">Filtrer</button>
+                        </form>
+                    </div>
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
                         <h5 class="card-header">Liste des retours sur les plats</h5>
@@ -219,9 +217,11 @@
                             <div class="card review">
                                 <hr>
                                 <div class="card-body">
-                                    <h5 class="card-title">ID Utilisateur : <%= review.getIdUser() %>
+                                    <% User user = User.getById(review.getIdUser());%>
+                                    <h5 class="card-title">Utilisateur : <%= user.getFirstname() %> <%= user.getLastname() %>
                                     </h5>
-                                    <div class="card-subtitle text-muted mb-3">ID Recette : <%= review.getIdRecipe() %>
+                                    <% Recipe r= Recipe.getById(review.getIdRecipe());%>
+                                    <div class="card-subtitle text-muted mb-3">Recette : <%= r.getTitle() %>
                                     </div>
                                     <div class="stars mb-2">
                                         <%

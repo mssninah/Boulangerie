@@ -52,6 +52,48 @@ public class Review {
         this.date = date;
     }
 
+
+    public static ArrayList<Review> getReviewByMonth(String monthId, String year) throws Exception {
+        ArrayList<Review> reviews = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+    
+        try {
+            connection = DBConnection.getPostgesConnection();
+            statement = connection.prepareStatement(
+                "SELECT * FROM review WHERE EXTRACT(MONTH FROM review_date) = ? AND EXTRACT(YEAR FROM review_date) = ? ORDER BY rating DESC"
+            );
+            statement.setInt(1, Integer.parseInt(monthId)); // Convert monthId to an integer
+            statement.setInt(2, Integer.parseInt(year));    // Convert year to an integer
+    
+            resultSet = statement.executeQuery();
+    
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id_review");
+                int idUser = resultSet.getInt("id_user");
+                int idRecipe = resultSet.getInt("id_recipe");
+                int rating = resultSet.getInt("rating");
+                String comment = resultSet.getString("comment");
+                LocalDate date = resultSet.getDate("review_date").toLocalDate();
+    
+                reviews.add(new Review(id, idUser, idRecipe, rating, comment, date));
+            }
+        } finally {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    
+        return reviews;
+    }
+    
     public static ArrayList<Review> all() throws Exception {
         ArrayList<Review> reviews = new ArrayList<Review>();
 
@@ -394,35 +436,29 @@ public class Review {
         this.date = date;
     }
 
-    public static ArrayList<Review> getReviewMonth(int month, int year) throws Exception {
-        ArrayList<Review> reviews = new ArrayList<Review>();
+    public static ArrayList<Review> getReviewByear(String year) throws Exception {
+        ArrayList<Review> reviews = new ArrayList<>();
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
-
+    
         try {
             connection = DBConnection.getPostgesConnection();
             statement = connection.prepareStatement(
-                "SELECT * FROM review WHERE EXTRACT(MONTH FROM review_date) = ? AND EXTRACT(YEAR FROM review_date) = ?"
+                "SELECT * FROM review WHERE EXTRACT(YEAR FROM review_date) = ? ORDER BY rating DESC"
             );
-            statement.setInt(1, month);
-            statement.setInt(2, year);
+            statement.setInt(1, Integer.parseInt(year));    // Convert year to an integer
+    
             resultSet = statement.executeQuery();
-
-            int id;
-            int idUser;
-            int idRecipe;
-            int rating;
-            String comment;
-            LocalDate date;
+    
             while (resultSet.next()) {
-                id = resultSet.getInt("id_review");
-                idUser = resultSet.getInt("id_user");
-                idRecipe = resultSet.getInt("id_recipe");
-                rating = resultSet.getInt("rating");
-                comment = resultSet.getString("comment");
-                date = resultSet.getDate("review_date").toLocalDate();
-
+                int id = resultSet.getInt("id_review");
+                int idUser = resultSet.getInt("id_user");
+                int idRecipe = resultSet.getInt("id_recipe");
+                int rating = resultSet.getInt("rating");
+                String comment = resultSet.getString("comment");
+                LocalDate date = resultSet.getDate("review_date").toLocalDate();
+    
                 reviews.add(new Review(id, idUser, idRecipe, rating, comment, date));
             }
         } finally {
@@ -436,7 +472,7 @@ public class Review {
                 connection.close();
             }
         }
-
+    
         return reviews;
     }
 

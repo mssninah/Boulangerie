@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="dao.Recipe, dao.Ingredient,dao.Category, java.util.ArrayList, util.SessionUtils" %>
+<%@ page import="dao.Recipe, dao.Ingredient,dao.Category, java.util.ArrayList, util.SessionUtils,dao.User" %>
 <% boolean connected = SessionUtils.isUserConnected(request); %>
 
 <%@include file="header.jsp"%>
