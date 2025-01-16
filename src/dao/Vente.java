@@ -312,9 +312,20 @@ public class Vente {
     
 
     public static void filtrepardate(ArrayList<String[]> ventes, String date) throws Exception {
-        // Itérer sur la liste des ventes et supprimer celles dont la vente_date ne correspond pas
-        ventes.removeIf(sale -> !sale[1].equals(date)); // sale[1] est l'index de vente_date dans chaque tableau de vente
+        if (ventes == null || date == null) {
+            return; // Si la liste est nulle ou la date est nulle, on ne fait rien
+        }
+    
+        // Itérer sur la liste des ventes et supprimer celles dont la vente_date ne correspond pas à la date
+        ventes.removeIf(sale -> {
+            // Extraire la partie date de vente_date (format : yyyy-MM-dd)
+            String saleDate = sale[1].split(" ")[0]; // Récupère la date avant l'espace (la première partie de la chaîne)
+    
+            // Comparer la date de la vente avec la date donnée
+            return !saleDate.equals(date); // Retourne true pour supprimer la vente
+        });
     }
+    
     
         
 }

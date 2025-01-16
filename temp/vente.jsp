@@ -93,7 +93,7 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label" for="date_vente">Sélectionner une date de vente</label>
-                            <input type="datetime" name="date_vente" id="date_vente" class="form-control">
+                            <input type="date" name="date_vente" id="date_vente" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-primary">Filtrer</button>
                     </form>
