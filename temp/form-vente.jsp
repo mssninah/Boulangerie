@@ -1,8 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="dao.Recipe, dao.Category, java.util.ArrayList, util.SessionUtils"%>
+<%@ page import="dao.Recipe, dao.Category, java.util.ArrayList, util.SessionUtils,dao.User"%>
 
 <%
     boolean connected = SessionUtils.isUserConnected(request);
+    User u = null;
+    if(connected){
+        u=SessionUtils.getConnectedUser(request);
+    }
     ArrayList<Recipe> recipes = (ArrayList<Recipe>) request.getAttribute("recipes");
 %>
 
@@ -34,6 +38,9 @@
                                 </div>
                                 <div class="card-body">
                                     <form action="formvente" method="post">
+
+                                        <input type="hidden" name="userId" value="<%= (u != null) ? u.getId() : 0 %>">
+
                                         <div class="mb-3">
                                             <label for="saleDate" class="form-label">Date de vente</label>
                                             <input type="date" id="saleDate" name="date" class="form-control" required>

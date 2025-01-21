@@ -38,7 +38,7 @@ public class FormVenteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             // Récupérer l'ID de l'utilisateur connecté (si fourni)
-            Integer userId = req.getParameter("userId") != null ? Integer.parseInt(req.getParameter("userId")) : 0;
+            int userId = req.getParameter("userId") != null ? Integer.parseInt(req.getParameter("userId")) : 0;
     
             // Initialisation de la vente avec un montant total temporaire de 0
             double totalAmount = 0.0; 
