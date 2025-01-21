@@ -42,7 +42,9 @@
 
                     <!-- Commission List -->
                     <div class="card">
-                        <h5 class="card-header">Liste des commissions</h5>
+                        <h5 class="card-header">Liste des commissions
+                             de <%= connected ? SessionUtils.getConnectedUser(request).getFullName() : "Anonyme" %>
+                        </h5>
                         <div class="card-body">
                             <% if (errorMessage != null) { %>
                                 <div class="alert alert-danger alert-dismissible mb-0" role="alert">
@@ -57,7 +59,6 @@
                                 <thead>
                                     <tr>
                                         <th>id commission</th>
-                                        <th>Vendeur</th>
                                         <th>id vente</th>
                                         <th>Date de vente</th>
                                         <th>Montant total</th>
@@ -81,13 +82,12 @@
                                 %>
                                     <tr>
                                         <td><strong><%= idCommission %></strong></td>
-                                        <td><%= User.getById(idVendeur).getFirstname() + " " + User.getById(idVendeur).getLastname() %></td>
                                         <td><%= idVente %></td> 
                                         <td><%= dateVente %></td>              
                                         <td><%= montantTotal %> Euro</td>
                                         <td><%= pourcentageCommission %> %</td>
                                         <td><%= montantCommission %> Euro</td>
-                                        <td><a href=""></a>Voir les details de la vente</td>
+                                        <td><a href="details-vente.jsp?idvente=<%= idVente %>">Voir les détails de la vente</a></td>
                                     </tr>
                                 <% 
                                         }
