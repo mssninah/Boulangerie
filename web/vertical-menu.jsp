@@ -7,10 +7,7 @@
     <!-- App brand -->
     <div class="app-brand demo">
         <a href="recipe" class="app-brand-link">
-                      <span class="app-brand-logo demo">
-                        <img width="25" src="assets/img/favicon/mofo.png" alt="Gotta taste logo">
-                      </span>
-            <span class="app-brand-text demo menu-text fw-bolder ms-2">Cooking mama</span>
+            <span class="app-brand-text demo menu-text fw-bolder ms-2">Mofoko</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -74,13 +71,12 @@
             </a>
         </li> 
 
-         <!-- Comissions -->
+        <!-- Comissions -->
         <li class="menu-item">
             <a href="commissions" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-dollar-circle"></i>
                 <div>Commissions</div>
             </a>
         </li>
-     
     </ul>
 </aside>
