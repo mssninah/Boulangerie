@@ -47,10 +47,7 @@
                     <!-- Logo -->
                     <div class="app-brand justify-content-center">
                         <a href="recipe" class="app-brand-link gap-2 py-1">
-                    <span class="app-brand-logo demo">
-                      <img width="25" src="assets/img/favicon/mofo.png" alt="Gotta taste logo">
-                    </span>
-                            <span class="app-brand-text demo text-body fw-bolder">Cooking Mama</span>
+                            <span class="app-brand-text demo text-body fw-bolder">Mofoko</span>
                         </a>
                     </div>
                     <!-- /Logo -->
@@ -67,7 +64,7 @@
                         <div class="mb-3">
                             <label for="userEmail" class="form-label">Email</label>
                             <input
-                                    value="ninahx_x@cook.com"
+                                    value="Thomis.rasolomandimby@gmail.com"
                                     type="text"
                                     class="form-control"
                                     id="userEmail"
@@ -81,7 +78,7 @@
                             <label class="form-label" for="userPassword">Mot de passe</label>
                             <div class="input-group input-group-merge">
                                 <input
-                                        value="password123"
+                                        value="thomis"
                                         type="password"
                                         id="userPassword"
                                         class="form-control"
