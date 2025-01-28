@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class VenteServlet extends HttpServlet {
 
@@ -31,7 +32,8 @@ public class VenteServlet extends HttpServlet {
                 ArrayList<Category> categories = Category.all();
                 req.setAttribute("categories", categories);
 
-                ArrayList<User> users = User.all();
+                List<User> users = User.all();
+                users = User.getClients(users);
                 req.setAttribute("users", users);
 
                 RequestDispatcher dispatcher = req.getRequestDispatcher("vente.jsp");
@@ -56,20 +58,27 @@ public class VenteServlet extends HttpServlet {
             int p = 0;
             // Filter sales based on the selected parfum or "nature"
             if (value != null && value.equals("nature")) {
-                filteredSales = Vente.getFilteredSales(true, categoryName); // No parfum filter
+                filteredSales = Vente.getFilteredSales(true, categoryName);
                 p=1;
             } else if(value!=null && !value.isEmpty()){
                 p=1;
                 int i = Integer.parseInt(value);
-                filteredSales = Vente.getFilteredparfum(i, categoryName); // Filter by selected parfum
+                filteredSales = Vente.getFilteredparfum(i, categoryName);
             }
+
+            // if (value.isEmpty()) {
+            //     filteredSales = Vente.getFilteredSales(categoryName);
+            //     p=1;
+            // }
             
 
             if (user != null && !user.isEmpty()) {
                 if (p==0) {
                     filteredSales= Vente.getSalesList();
+                    System.out.println("if 1 :" + filteredSales.size());
                     p=1;
                 }
+                System.out.println("if 2 :" + filteredSales.size());
                 int u = Integer.parseInt(user);  // Effectuer la conversion uniquement si la chaîne n'est pas vide
                 Vente.filteparuser(filteredSales, u);
             }
@@ -90,7 +99,8 @@ public class VenteServlet extends HttpServlet {
             ArrayList<Category> categories = Category.all();
             req.setAttribute("categories", categories);
 
-            ArrayList<User> users = User.all();
+            List<User> users = User.all();
+            users = User.getClients(users);
             req.setAttribute("users", users);
     
             // Optionally clear the session attribute "filtre"
@@ -103,6 +113,5 @@ public class VenteServlet extends HttpServlet {
         } catch (Exception e) {
             throw new ServletException(e);
         }
-    }
-    
+    }  
 }
