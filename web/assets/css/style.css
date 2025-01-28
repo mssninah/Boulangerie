@@ -1,112 +1,87 @@
 :root {
-    --pink: #ff66b2;
-    --light-pink: #ff80cc;
-    --very-light-pink: rgba(255, 128, 204, 0.16);
-
-    --add-bg-color: #ff99cc;
-    --transparent-add-bg-color: rgba(255, 153, 204, 0.4);
-
-    --input-focus-border: #ff3399;
+    --yellow: #ffcc00;
+    --light-yellow: #ffdd33;
+    --very-light-yellow: rgba(255, 221, 51, 0.16);
+    --orange: #ff9900;
+    --transparent-orange: rgba(255, 153, 0, 0.4);
+    --input-focus-border: #cc6600;
 }
-
 .fs-0-5em {
     font-size: .5em;
 }
-
 .fs-3em {
     font-size: 3em;
 }
-
 /* Redéfinition des boutons */
 .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:focus {
-    background-color: var(--pink);
-    border-color: var(--pink);
+    background-color: var(--yellow);
+    border-color: var(--yellow);
 }
-
 .btn-primary {
-    box-shadow: 0 0.125rem 0.25rem 0 var(--very-light-pink);
+    box-shadow: 0 0.125rem 0.25rem 0 var(--very-light-yellow);
 }
-
 .btn-primary:focus {
-    border-color: #ff3399;
+    border-color: #cc6600;
 }
-
 .btn-success, .btn-success:hover, .btn-success:active, .btn-success:focus {
-    background-color: var(--add-bg-color);
-    border-color: var(--add-bg-color);
+    background-color: var(--orange);
+    border-color: var(--orange);
 }
-
 .btn-success {
-    box-shadow: 0 0.125rem 0.25rem 0 var(--transparent-add-bg-color);
+    box-shadow: 0 0.125rem 0.25rem 0 var(--transparent-orange);
 }
-
 .btn-success:focus {
-    border-color: #ff3399;
+    border-color: #cc6600;
 }
-
 .bg-menu-theme .menu-inner > .menu-item.active > .menu-link {
-    color: var(--pink);
-    background-color: var(--very-light-pink) !important;
+    color: var(--yellow);
+    background-color: var(--very-light-yellow) !important;
 }
-
 .bg-menu-theme .menu-inner > .menu-item.active:before {
-    background: var(--pink);
+    background: var(--yellow);
 }
-
 .dropdown-item:not(.disabled).active, .dropdown-item:not(.disabled):active {
-    background-color: var(--very-light-pink);
-    color: var(--pink) !important;
+    background-color: var(--very-light-yellow);
+    color: var(--yellow) !important;
 }
-
 /* Form elements */
 .input-group:focus-within .form-control, .input-group:focus-within .input-group-text {
     border-color: var(--input-focus-border);
 }
-
 .form-control:focus, .form-select:focus {
     border-color: var(--input-focus-border);
 }
-
 /* Personnalisation */
 .review {
     box-shadow: none;
 }
-
 .review hr {
     margin: 0;
 }
-
 .review .update-btn, .review .delete-btn {
     position: absolute;
     top: 1rem;
     right: 1rem;
 }
-
 .review .update-btn {
     right: 4rem;
 }
-
 .stars {
-    color: var(--add-bg-color);
+    color: var(--orange);
 }
-
 .stars-radio i {
     font-size: 1.7rem;
     cursor: pointer;
 }
-
 .checked-star::before {
     content: "\ebac";
 }
-
 .stars-radio input[type=radio] {
     display: none;
 }
-
 .list-group-item {
     position: relative;
 }
-
 .list-group-item .actions {
     position: absolute;
     top: 1.5rem;
