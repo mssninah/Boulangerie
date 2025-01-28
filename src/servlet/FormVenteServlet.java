@@ -1,10 +1,10 @@
 package servlet;
 
-
-import dao.Category;
 import dao.Recipe;
 import dao.Vente;
 import dao.VenteDetails;
+import dao.User;
+
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
+import java.util.List;
 
 public class FormVenteServlet extends HttpServlet {
     @Override
@@ -22,10 +22,17 @@ public class FormVenteServlet extends HttpServlet {
         try {
                         // Inside your controller, you need to set the recipe list in the request attributes before forwarding the request to the JSP.
             ArrayList<Recipe> recipes = Recipe.all(); // Assuming Recipe.all() returns a list of recipes
-            req.setAttribute("recipes", recipes);
+            
+            List<User> users = User.all();
+            List<User> clients = User.getClients(users);
+            List<User> vendeurs = User.getVendeurs(users);
 
             String p = "Formulaire vente";
+            
+            req.setAttribute("recipes", recipes);
             req.setAttribute("pageTitle", p);
+            req.setAttribute("clients", clients);
+            req.setAttribute("vendeurs", vendeurs);
             // Afficher le formulaire de saisie de vente
             RequestDispatcher dispatcher = req.getRequestDispatcher("form-vente.jsp");
             dispatcher.forward(req, resp);
@@ -37,12 +44,12 @@ public class FormVenteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            // Récupérer l'ID de l'utilisateur connecté (si fourni)
-            int userId = req.getParameter("userId") != null ? Integer.parseInt(req.getParameter("userId")) : 0;
+            int id_client = Integer.parseInt(req.getParameter("clientId")); // Récupérer l'ID du client
+            int id_vendeur = Integer.parseInt(req.getParameter("vendeurId")); // Récupérer l'ID du vendeur
     
             // Initialisation de la vente avec un montant total temporaire de 0
             double totalAmount = 0.0; 
-            Vente vente = new Vente(userId, totalAmount);
+            Vente vente = new Vente(id_client, id_vendeur, totalAmount);
     
             // Insérer la vente et récupérer l'ID généré
             int venteId = vente.create();
