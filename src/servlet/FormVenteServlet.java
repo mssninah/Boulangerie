@@ -1,6 +1,5 @@
 package servlet;
 
-import dao.Commission;
 import dao.Recipe;
 import dao.Vente;
 import dao.VenteDetails;
@@ -14,7 +13,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Date;
 

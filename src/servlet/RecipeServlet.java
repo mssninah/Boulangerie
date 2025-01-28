@@ -17,7 +17,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import dao.Category;
 import dao.HistoryPrice;
 import dao.Recipe;
-import dao.Ingredient;
 public class RecipeServlet extends HttpServlet {
 
     @Override

@@ -4,7 +4,6 @@ import dao.Category;
 import dao.Ingredient;
 import dao.User;
 import dao.Vente;
-import dao.VenteDetails;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;

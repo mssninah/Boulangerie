@@ -1,9 +1,6 @@
 package servlet;
 
-import dao.Category;
-import dao.Recipe;
 import dao.RecipeIngredient;
-import dao.Step;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -11,9 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.ArrayList;
 
 public class RecipeIngredientServlet extends HttpServlet {
 
