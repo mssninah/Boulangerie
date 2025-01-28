@@ -39,6 +39,8 @@
                 <!-- Content -->
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Gotta taste /</span> Vente</h4>
+                    
+                    <button type="button" class="btn btn-primary mt-3"><a href="formvente">Ajouter une nouvelle vente</a></button>
 
                     <!-- Category filter form -->
                     <form method="post" action="vente">
@@ -76,7 +78,7 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="user">Sélectionner un utilisateur</label>
+                            <label class="form-label" for="user">Client</label>
                             <select name="user" id="user" class="form-control">
                                 <option value="">-- Sélectionner un utilisateur --</option>
                                 <%
@@ -120,13 +122,15 @@
                             <table class="table">
                                 <thead>
                                     <tr>
-                                        <th>id vente</th>
+                                        <th>id_vente</th>
                                         <th>Date de la vente</th>
-                                        <th>Nom de l'user</th>
+                                        <th>Client</th>
+                                        <th>Vendeur</th>
                                         <th>Nom du produit</th>
                                         <th>Nom de la Categorie</th>
-                                        <th>Quantité</th>
+                                        <th>is_nature</th>
                                         <th>Unite price</th>
+                                        <th>Total amount</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -137,24 +141,27 @@
                                     }
                                     if (list != null) {
                                         for (String[] item : list) { 
-                                            String id = item[0];          // Sale ID
-                                            String daty = item[1];        // Sale Date
-                                            String nom_user = item[2];    // User's full name
-                                            String nom_produit = item[3]; // Recipe name (product name)
-                                            String nom_categorie = item[4]; // Category name
-                                            String quantite = item[6];    // Quantity
-                                            String unit_price = item[7];  // Unit price
-                                            String sub_total = item[8];   // Sub-total
+                                            String vente_date = item[0];          // Sale ID
+                                            String client_name = item[1];        // Sale Date
+                                            String vendeur_name = item[2];    // User's full name
+                                            String recipe = item[3]; // Recipe name (product name)
+                                            String categorie_name = item[4]; // Category name
+                                            String is_nature = item[5];    // Quantity
+                                            String quantity = item[6];  // Unit price
+                                            String unit_price = item[7];
+                                            String id_vente = item[8];
+                                            String total_amount = item[9];
                                 %>
                                     <tr>
-                                        <td><strong><%= id %></strong></td>
-                                        <td><%= daty %></td>              
-                                        <td><%= nom_user %></td>          
-                                        <td><%= nom_produit %></td>        
-                                        <td><%= nom_categorie %></td>    <!-- Corrected to category name -->
-                                        <td><%= quantite %></td>         
+                                        <td><%= id_vente %></td>
+                                        <td><%= vente_date %></td>
+                                        <td><%= client_name %></td>              
+                                        <td><%= vendeur_name %></td>          
+                                        <td><%= recipe %></td>        
+                                        <td><%= categorie_name %></td>
+                                        <td><%= is_nature %></td>         
                                         <td><%= unit_price %> </td>     
-                                        <td><%= sub_total %> Euro</td>  <!-- Corrected to sub_total -->
+                                        <td><%= total_amount %> Euro</td>
                                     </tr>
                                 <% 
                                         }
