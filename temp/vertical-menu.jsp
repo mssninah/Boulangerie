@@ -55,7 +55,7 @@
 
             <!-- Vente -->
         <li class="menu-item">
-            <a href="formvente" class="menu-link">
+            <a href="vente" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-cart"></i> <!-- Shopping cart icon -->
                 <div data-i18n="Ventes">Ventes</div>
             </a>
