@@ -29,10 +29,6 @@
 
 
   <!-- Servlet name definition -->
-<servlet>
-    <servlet-class>servlet.ComissionServlet</servlet-class>
-    <servlet-name>ComissionServlet</servlet-name>
-  </servlet>
 
  <servlet>
     <servlet-class>servlet.FormVenteServlet</servlet-class>
@@ -121,10 +117,6 @@
 
   <!-- Servlet mapping -->
 
-  <servlet-mapping>
-    <servlet-name>ComissionServlet</servlet-name>
-    <url-pattern>/commissions</url-pattern>
-  </servlet-mapping>
   <servlet-mapping>
     <servlet-name>FormVenteServlet</servlet-name>
     <url-pattern>/formvente</url-pattern>

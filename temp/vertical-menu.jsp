@@ -73,14 +73,5 @@
                 <div data-i18n="Reviews">Retours</div>
             </a>
         </li> 
-
-         <!-- Comissions -->
-        <li class="menu-item">
-            <a href="commissions" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-dollar-circle"></i>
-                <div>Commissions</div>
-            </a>
-        </li>
-     
     </ul>
 </aside>
