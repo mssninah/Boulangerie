@@ -10,6 +10,12 @@ CREATE TABLE boulangerie_user (
     user_password VARCHAR(100) NOT NULL
 );
 
+ALTER TABLE boulangerie_user 
+ADD COLUMN id_sexe INTEGER, 
+ADD COLUMN id_status INTEGER,
+ADD CONSTRAINT fk_sexe FOREIGN KEY (id_sexe) REFERENCES sexe(id),
+ADD CONSTRAINT fk_status FOREIGN KEY (id_status) REFERENCES status(id);
+
 CREATE TABLE category (
     id_category SERIAL PRIMARY KEY,
     category_name VARCHAR(255) NOT NULL
