@@ -16,6 +16,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Date;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 public class FormVenteServlet extends HttpServlet {
     @Override
@@ -45,55 +49,55 @@ public class FormVenteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            int id_client = Integer.parseInt(req.getParameter("clientId")); // Récupérer l'ID du client
-            int id_vendeur = Integer.parseInt(req.getParameter("vendeurId")); // Récupérer l'ID du vendeur
-
-            // Récupérer les détails de la vente (recettes, quantités, prix unitaires)
+            int id_client = Integer.parseInt(req.getParameter("clientId")); 
+            int id_vendeur = Integer.parseInt(req.getParameter("vendeurId"));
+    
+            String dateString = req.getParameter("date");
+    
+            Timestamp timestamp = null;
+            if (dateString != null && !dateString.isEmpty()) {
+                if (dateString.length() == 10) { // Format "yyyy-MM-dd"
+                    dateString += " 00:00:00"; // Ajouter les heures, minutes et secondes
+                }
+    
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date parsedDate = dateFormat.parse(dateString);
+                timestamp = new Timestamp(parsedDate.getTime());
+            }
+    
+            // Récupération des détails de la vente
             String[] recipeIds = req.getParameterValues("recipeId[]");
             String[] quantities = req.getParameterValues("quantity[]");
             String[] unitPrices = req.getParameterValues("unitPrice[]");
     
-            // Initialisation de la vente avec un montant total temporaire de 0
             double totalAmount = 0.0; 
-            Vente vente = new Vente(id_client, id_vendeur, totalAmount);
+            Vente vente = new Vente(id_client, id_vendeur, totalAmount, timestamp);
     
-            // Insérer la vente et récupérer l'ID généré
             int venteId = vente.create();
             vente.setId(venteId);
-            
-            // Log pour débogage
-            System.out.println("recipeIds: " + Arrays.toString(recipeIds));
-            System.out.println("quantities: " + Arrays.toString(quantities));
-            System.out.println("unitPrices: " + Arrays.toString(unitPrices));
+    
             if (recipeIds != null && quantities != null && unitPrices != null) {
                 double calculatedTotalAmount = 0.0;
     
                 for (int i = 0; i < recipeIds.length; i++) {
-
-                    // Validation des données récupérées depuis le formulaire
                     int recipeId = Integer.parseInt(recipeIds[i]);
                     int quantity = Integer.parseInt(quantities[i]);
                     double unitPrice = Double.parseDouble(unitPrices[i]);
     
-                    // Créer un détail de vente
                     VenteDetails venteDetails = new VenteDetails(venteId, recipeId, quantity, unitPrice);
                     venteDetails.create();
     
-                    // Calculer le montant total en fonction des détails
                     calculatedTotalAmount += quantity * unitPrice;
                 }
     
-                // Mettre à jour le montant total dans la vente
                 vente.updateTotalAmount(calculatedTotalAmount);
-
             }
     
-            // Redirection vers la liste des ventes
             resp.sendRedirect("vente?action=list");
     
         } catch (Exception e) {
             throw new ServletException("Une erreur est survenue lors de l'enregistrement de la vente.", e);
         }
-    }
+    }    
     
 }

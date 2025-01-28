@@ -9,10 +9,11 @@ public class Vente {
     private double totalAmount;
 
 
-    public Vente(int id_client, int id_vendeur, double totalAmount) {
+    public Vente(int id_client, int id_vendeur, double totalAmount, Timestamp date) {
         this.id_client = id_client;
         this.id_vendeur = id_vendeur;
         this.totalAmount = totalAmount;
+        this.venteDate = date;
     }
 
     // Constructor
@@ -72,12 +73,13 @@ public class Vente {
         ResultSet generatedKeys = null;
         try {
             connection = DBConnection.getPostgesConnection();
-            String query = "INSERT INTO vente (id_client, id_vendeur, total_amount) VALUES (?, ?, ?) RETURNING id_vente";
+            String query = "INSERT INTO vente (id_client, id_vendeur, vente_date, total_amount) VALUES (?, ?, ?, ?) RETURNING id_vente";
             statement = connection.prepareStatement(query);
             
             statement.setInt(1, this.id_client);
             statement.setInt(2, this.id_vendeur);
-            statement.setDouble(3, this.totalAmount);
+            statement.setTimestamp(3, this.venteDate);
+            statement.setDouble(4, this.totalAmount);
             generatedKeys = statement.executeQuery();
 
             if (generatedKeys.next()) {
@@ -91,21 +93,6 @@ public class Vente {
             if (connection != null) connection.close();
         }
     }
-
-    // Method to update a vente
-    // public void update() throws Exception {
-    //     String query = "UPDATE vente SET id_user = ?, vente_date = ?, total_amount = ? WHERE id_vente = ?";
-        
-    //     try (Connection connection = DBConnection.getPostgesConnection();
-    //          PreparedStatement statement = connection.prepareStatement(query)) {
-            
-    //         statement.setInt(1, userId);
-    //         statement.setTimestamp(2, venteDate);
-    //         statement.setDouble(3, totalAmount);
-    //         statement.setInt(4, id);
-    //         statement.executeUpdate();
-    //     }
-    // }
 
     // Method to delete a vente
     public void delete() throws Exception {

@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="dao.CommissionViewDAO, dao.User, java.util.List, util.SessionUtils" %>
+<%@ page import="dao.CommissionViewDAO, dao.CommissionSexe, dao.User, java.util.List, util.SessionUtils" %>
 <%
     boolean connected = SessionUtils.isUserConnected(request);
     String errorMessage = (String) request.getAttribute("errorMessage");
@@ -40,19 +40,71 @@
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Gotta taste /</span> Commissions</h4>
 
+                    <div class="table-responsive text-nowrap">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Sexe</th>
+                                        <th>Total Commission</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <% 
+                                    List<CommissionSexe> commissionsSexe = (List<CommissionSexe>) request.getAttribute("commissionsSexe");
+                                    if (commissionsSexe != null && !commissionsSexe.isEmpty()) {
+                                        for (CommissionSexe commission : commissionsSexe) {
+                                            String sexe = commission.getSexe();
+                                            double totalCommission = commission.getTotalCommission();
+                                %>
+                                            <tr>
+                                                <td><%= sexe %></td>
+                                                <td><%= totalCommission %> Euro</td>
+                                            </tr>
+                                <% 
+                                        }
+                                    } else {
+                                %>
+                                        <tr>
+                                            <td colspan="2" class="text-center">Aucune commission par sexe disponible pour l'instant.</td>
+                                        </tr>
+                                <% 
+                                    }
+                                %>
+                                </tbody>
+                            </table>
+                        </div>
+                        
                     <!-- Commission List -->
                     <div class="card">
-                        <h5 class="card-header">Liste des commissions
-                             de <%= connected ? SessionUtils.getConnectedUser(request).getFullName() : "Anonyme" %>
-                        </h5>
+
+                        
+
                         <div class="card-body">
-                            <% if (errorMessage != null) { %>
-                                <div class="alert alert-danger alert-dismissible mb-0" role="alert">
-                                    <%= errorMessage %>
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            <form method="POST" action="commissions" class="row g-3">
+                                <div class="col-md-4">
+                                    <label for="startDate" class="form-label">Date de début</label>
+                                    <input type="date" id="startDate" name="startDate" class="form-control">
                                 </div>
-                            <% } %>
-                            
+                                <div class="col-md-4">
+                                    <label for="endDate" class="form-label">Date de fin</label>
+                                    <input type="date" id="endDate" name="endDate" class="form-control">
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="vendeur" class="form-label">Vendeur</label>
+                                    <select id="vendeur" name="vendeur" class="form-select">
+                                        <option value="">Tous les vendeurs</option>
+                                        <% List<User> vendeurs = (List<User>) request.getAttribute("vendeurs");
+                                        if (vendeurs != null) {
+                                            for (User vendeur : vendeurs) { %>
+                                                <option value="<%= vendeur.getId() %>"><%= vendeur.getFirstname() %></option>
+                                            <% }
+                                        } %>
+                                    </select>
+                                </div>
+                                <div class="col-md-12">
+                                    <button type="submit" class="btn btn-primary">Filtrer</button>
+                                </div>
+                            </form>
                         </div>
                         <div class="table-responsive text-nowrap">
                             <table class="table">
@@ -64,7 +116,6 @@
                                         <th>Montant total</th>
                                         <th>Pourcentage de commission</th>
                                         <th>Montant commission</th>
-                                        <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -87,7 +138,6 @@
                                         <td><%= montantTotal %> Euro</td>
                                         <td><%= pourcentageCommission %> %</td>
                                         <td><%= montantCommission %> Euro</td>
-                                        <td><a href="details-vente.jsp?idvente=<%= idVente %>">Voir les détails de la vente</a></td>
                                     </tr>
                                 <% 
                                         }

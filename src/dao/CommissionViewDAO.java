@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Timestamp;
 
 public class CommissionViewDAO {
 
@@ -106,6 +107,58 @@ public class CommissionViewDAO {
         return commissions;
     }
 
+    public static List<CommissionViewDAO> getByVendeur(int vendeurId, List<CommissionViewDAO> commissions) {
+        List<CommissionViewDAO> filteredCommissions = new ArrayList<>();
+        
+        for (CommissionViewDAO commission : commissions) {
+            if (commission.getIdVendeur() == vendeurId) {
+                filteredCommissions.add(commission);
+            }
+        }
+        
+        return filteredCommissions;
+    }
+    
+    
+    // Méthode statique pour récupérer les commissions entre deux dates
+    public static List<CommissionViewDAO> getCommissionDate(Timestamp dateDebut, Timestamp dateFin) throws Exception {
+        List<CommissionViewDAO> commissions = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Connexion à la base de données
+            connection = DBConnection.getPostgesConnection();
+            String query = "SELECT * FROM voir_comissions WHERE vente_date BETWEEN ? AND ?";
+            statement = connection.prepareStatement(query);
+            statement.setTimestamp(1, dateDebut);
+            statement.setTimestamp(2, dateFin);
+            resultSet = statement.executeQuery();
+
+            // Parcourir les résultats
+            while (resultSet.next()) {
+                commissions.add(new CommissionViewDAO(
+                        resultSet.getInt("id_commission"),
+                        resultSet.getInt("id_vendeur"),
+                        resultSet.getInt("id_vente"),
+                        resultSet.getBigDecimal("total_amount"),
+                        resultSet.getBigDecimal("pourcentage_commission"),
+                        resultSet.getTimestamp("vente_date"),
+                        resultSet.getBigDecimal("montant_commission")
+                ));
+            }
+        } finally {
+            // Fermeture des ressources
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
+        }
+
+        return commissions;
+    }
+    
+    
     // Getters et Setters
     public int getIdCommission() {
         return idCommission;

@@ -78,7 +78,7 @@ public class Commission {
     }
 
     // CREATE
-    public void create() throws SQLException {
+    public void create() throws Exception {
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
@@ -92,7 +92,11 @@ public class Commission {
             stmt.setDate(3, Date.valueOf(this.getDate_fin()));
             stmt.setInt(4, this.getId_vendeur());
             stmt.executeUpdate();
-        }finally {
+        }catch (Exception e) {
+            if (connection != null) connection.rollback();
+            throw e;
+        }
+        finally {
             // Ensure resources are closed
             if (resultSet != null) resultSet.close();
             if (stmt != null) stmt.close();
@@ -101,7 +105,7 @@ public class Commission {
     }
 
     // READ
-    public List<Commission> all() throws SQLException {
+    public List<Commission> all() throws Exception {
         List<Commission> commissions = new ArrayList<>();
 
         Connection connection = null;
@@ -123,6 +127,9 @@ public class Commission {
                         rs.getDate("date_fin").toLocalDate()
                 ));
             }
+        }catch (Exception e) {
+            if (connection != null) connection.rollback();
+            throw e;
         }finally {
             // Ensure resources are closed
             if (resultSet != null) resultSet.close();
@@ -133,7 +140,7 @@ public class Commission {
     }
 
     // UPDATE
-    public void update(Commission commission) throws SQLException {
+    public void update(Commission commission) throws Exception {
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
@@ -149,6 +156,9 @@ public class Commission {
             stmt.setInt(4, commission.getId_vendeur());
             stmt.setInt(5, commission.getId_commission());
             stmt.executeUpdate();
+        }catch (Exception e) {
+            if (connection != null) connection.rollback();
+            throw e;
         }finally {
             // Ensure resources are closed
             if (resultSet != null) resultSet.close();
@@ -158,7 +168,7 @@ public class Commission {
     }
 
     // DELETE
-    public void delete(int id) throws SQLException {
+    public void delete(int id) throws Exception {
         Connection connection = null;
         PreparedStatement stmt = null;
         ResultSet resultSet = null;
@@ -170,6 +180,9 @@ public class Commission {
 
             stmt.setInt(1, id);
             stmt.executeUpdate();
+        }catch (Exception e) {
+            if (connection != null) connection.rollback();
+            throw e;
         }finally {
             // Ensure resources are closed
             if (resultSet != null) resultSet.close();
