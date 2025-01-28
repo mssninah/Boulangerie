@@ -1,5 +1,6 @@
 package servlet;
 
+import dao.Commission;
 import dao.Recipe;
 import dao.Vente;
 import dao.VenteDetails;
@@ -46,6 +47,11 @@ public class FormVenteServlet extends HttpServlet {
         try {
             int id_client = Integer.parseInt(req.getParameter("clientId")); // Récupérer l'ID du client
             int id_vendeur = Integer.parseInt(req.getParameter("vendeurId")); // Récupérer l'ID du vendeur
+
+            // Récupérer les détails de la vente (recettes, quantités, prix unitaires)
+            String[] recipeIds = req.getParameterValues("recipeId[]");
+            String[] quantities = req.getParameterValues("quantity[]");
+            String[] unitPrices = req.getParameterValues("unitPrice[]");
     
             // Initialisation de la vente avec un montant total temporaire de 0
             double totalAmount = 0.0; 
@@ -54,11 +60,6 @@ public class FormVenteServlet extends HttpServlet {
             // Insérer la vente et récupérer l'ID généré
             int venteId = vente.create();
             vente.setId(venteId);
-    
-            // Récupérer les détails de la vente (recettes, quantités, prix unitaires)
-            String[] recipeIds = req.getParameterValues("recipeId[]");
-            String[] quantities = req.getParameterValues("quantity[]");
-            String[] unitPrices = req.getParameterValues("unitPrice[]");
             
             // Log pour débogage
             System.out.println("recipeIds: " + Arrays.toString(recipeIds));
@@ -84,6 +85,7 @@ public class FormVenteServlet extends HttpServlet {
     
                 // Mettre à jour le montant total dans la vente
                 vente.updateTotalAmount(calculatedTotalAmount);
+
             }
     
             // Redirection vers la liste des ventes
