@@ -163,6 +163,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Titre</th>
+                                    <th>prix</th>
                                     <th>Description</th>
                                     <th>ID Catégorie</th>
                                     <th>Temps de préparation</th>
@@ -178,6 +179,7 @@
                                     </strong></td>
                                     <td><%= recipe.getTitle() %>
                                     </td>
+                                    <td><%= recipe.getPrice() %>
                                     <td><%= recipe.getDescriptionExcerpt() %>
                                     </td>
                                     <td><%= recipe.getIdCategory() %>

@@ -51,6 +51,21 @@ public class Recipe {
         this.createdBy = createdBy;
         this.createdDate = createdDate;
     }
+
+    public Recipe(int id,String title, String description, int idCategory, LocalTime cookTime, String createdBy,
+            LocalDate createdDate, double price) {
+            this.id = id;
+        this.title = title;
+        this.description = description;
+        this.idCategory = idCategory;
+        this.cookTime = cookTime;
+        this.createdBy = createdBy;
+        this.createdDate = createdDate;
+        this.price = price;
+    }
+
+
+
     public static double getRecipePrice(int recipeId) throws Exception {
         Connection connection = null;
         PreparedStatement statement = null;
@@ -223,6 +238,7 @@ public class Recipe {
             LocalTime cookTime;
             String createdBy;
             LocalDate createdDate;
+            double price;
             while (resultSet.next()) {
                 id = resultSet.getInt("id_recipe");
                 title = resultSet.getString("title");
@@ -231,9 +247,10 @@ public class Recipe {
                 cookTime = resultSet.getTime("cook_time").toLocalTime();
                 createdBy = resultSet.getString("created_by");
                 createdDate = resultSet.getDate("created_date").toLocalDate();
+                price = resultSet.getDouble("prix");
 
                 recipes.add(
-                    new Recipe(id, title, description, idCategory, cookTime, createdBy, createdDate)
+                    new Recipe(id, title, description, idCategory, cookTime, createdBy, createdDate, price)
                 );
             }
         } finally {
@@ -322,7 +339,7 @@ public class Recipe {
             connection.setAutoCommit(false);
             statement = connection.prepareStatement(
                 "UPDATE recipe"
-                + " SET title = ?, recipe_description = ?, id_category = ?, cook_time = ?, created_by = ?, created_date = ?"
+                + " SET title = ?, recipe_description = ?, id_category = ?, cook_time = ?, created_by = ?, created_date = ?, prix = ?"
                 + " WHERE id_recipe = ?"
             );
             statement.setString(1, title);
@@ -331,7 +348,8 @@ public class Recipe {
             statement.setTime(4, Time.valueOf(cookTime));
             statement.setString(5, createdBy);
             statement.setDate(6, Date.valueOf(createdDate));
-            statement.setInt(7, id);
+            statement.setInt(8, id);
+            statement.setDouble(7, this.price);
             statement.executeUpdate();
             connection.commit();
         } catch (Exception e) {
@@ -558,8 +576,9 @@ public class Recipe {
             LocalTime cookTime = resultSet.getTime("cook_time").toLocalTime();
             String createdBy = resultSet.getString("created_by");
             LocalDate createdDate = resultSet.getDate("created_date").toLocalDate();
+            double prix = resultSet.getDouble("prix");
 
-            recipes.add(new Recipe(id, title, description, idCategory, cookTime, createdBy, createdDate));
+            recipes.add(new Recipe(id, title, description, idCategory, cookTime, createdBy, createdDate,prix));
         }
     } finally {
         if (resultSet != null) resultSet.close();
@@ -619,9 +638,7 @@ public class Recipe {
     }
 
     public double getPrice()throws Exception {
-        double d= Recipe.getRecipePrice(id);
-        this.setPrice(d);
-        return d;
+        return this.price;
     }
 
     public static DateTimeFormatter getTimeformatter() {

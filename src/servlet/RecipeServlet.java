@@ -1,9 +1,12 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -12,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import dao.Category;
+import dao.HistoryPrice;
 import dao.Recipe;
 import dao.Ingredient;
 public class RecipeServlet extends HttpServlet {
@@ -64,29 +68,57 @@ public class RecipeServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
-        try {
-            String action = req.getParameter("action");
-            int id = Integer.parseInt(req.getParameter("idRecipe"));
-            String title = req.getParameter("recipeTitle");
-            String description = req.getParameter("recipeDescription");
-            int idCategory = Integer.parseInt(req.getParameter("recipeIdCategory"));
-            LocalTime cookTime = LocalTime.parse(req.getParameter("recipeCookTime"));
-            String createdBy = req.getParameter("recipeCreator");
-            LocalDate createdDate = LocalDate.parse(req.getParameter("recipeCreationDate"));
+protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+    try {
+        String action = req.getParameter("action");
+        int id = Integer.parseInt(req.getParameter("idRecipe"));
+        String title = req.getParameter("recipeTitle");
+        String description = req.getParameter("recipeDescription");
+        int idCategory = Integer.parseInt(req.getParameter("recipeIdCategory"));
+        LocalTime cookTime = LocalTime.parse(req.getParameter("recipeCookTime"));
+        String createdBy = req.getParameter("recipeCreator");
 
-            Recipe recipe = new Recipe(id, title, description, idCategory, cookTime, createdBy, createdDate);
-
-            // Handle update or create actions
-            if (action != null && action.equals("update")) {
-                recipe.update();
-            } else {
-                recipe.create();
+        String dateString = req.getParameter("recipeCreationDate");
+        LocalDate creationDate = LocalDate.parse(dateString);
+        Timestamp timestamp = null;
+            if (dateString != null && !dateString.isEmpty()) {
+                if (dateString.length() == 10) { // Format "yyyy-MM-dd"
+                    dateString += " 00:00:00"; // Ajouter les heures, minutes et secondes
+                }
+    
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                Date parsedDate = dateFormat.parse(dateString);
+                timestamp = new Timestamp(parsedDate.getTime());
             }
 
-            resp.sendRedirect("recipe");
-        } catch (Exception e) {
-            throw new ServletException(e);
+        
+        double prix = Double.parseDouble(req.getParameter("recipePrice"));
+
+        // Log parameters
+        System.out.println("Action: " + action);
+        System.out.println("ID: " + id);
+        System.out.println("Title: " + title);
+        System.out.println("Description: " + description);
+        System.out.println("Category ID: " + idCategory);
+        System.out.println("Cook Time: " + cookTime);
+        System.out.println("Created By: " + createdBy);
+        System.out.println("Created Date: " + timestamp);
+        System.out.println("Price: " + prix);
+
+        Recipe recipe = new Recipe(id, title, description, idCategory, cookTime, createdBy, creationDate, prix);
+        HistoryPrice histo = new HistoryPrice(id,prix,timestamp);
+
+        // Handle update or create actions
+        if (action != null && action.equals("update")) {
+            recipe.update();
+            histo.create();
+        } else {
+            recipe.create();
         }
+
+        resp.sendRedirect("recipe");
+    } catch (Exception e) {
+        throw new ServletException(e);
     }
+}
 }

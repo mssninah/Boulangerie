@@ -78,7 +78,7 @@
                             <label class="form-label" for="userPassword">Mot de passe</label>
                             <div class="input-group input-group-merge">
                                 <input
-                                        value="thomis"
+                                        value="1234"
                                         type="password"
                                         id="userPassword"
                                         class="form-control"

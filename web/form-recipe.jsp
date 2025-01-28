@@ -112,6 +112,11 @@
                                                    required
                                             />
                                         </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="recipePrice">Prix</label>
+                                            <input value="<%= recipe.getPrice() %>" name="recipePrice" type="number" step="0.01" class="form-control" id="recipePrice" placeholder="Prix" required />
+                                        </div>
+                                        
                                         <% if (request.getAttribute("action").equals("create")) { %>
                                         <button type="submit" class="btn btn-success">Ajouter</button>
                                         <% } else { %>
