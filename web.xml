@@ -119,6 +119,11 @@
   </servlet>
 
 
+<servlet>
+    <servlet-class>servlet.HistoryPriceServlet</servlet-class>
+    <servlet-name>HistoryPriceServlet</servlet-name>
+  </servlet>
+
   <!-- Servlet mapping -->
 
   <servlet-mapping>
@@ -207,6 +212,11 @@
   <servlet-mapping>
     <servlet-name>FormLoginServlet</servlet-name>
     <url-pattern>/form-login</url-pattern>
+  </servlet-mapping>
+
+   <servlet-mapping>
+    <servlet-name>HistoryPriceServlet</servlet-name>
+    <url-pattern>/historyprice</url-pattern>
   </servlet-mapping>
  
 </web-app>
