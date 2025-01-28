@@ -29,6 +29,16 @@
 
 
   <!-- Servlet name definition -->
+
+  <servlet>
+    <servlet-class>servlet.FormPriceHistory</servlet-class>
+    <servlet-name>FormPriceHistory</servlet-name>
+  </servlet>
+
+  <servlet>
+    <servlet-class>servlet.PriceHistoryServlet</servlet-class>
+    <servlet-name>PriceHistoryServlet</servlet-name>
+  </servlet>
 <servlet>
     <servlet-class>servlet.ComissionServlet</servlet-class>
     <servlet-name>ComissionServlet</servlet-name>
@@ -120,6 +130,18 @@
 
 
   <!-- Servlet mapping -->
+
+
+  <servlet-mapping>
+    <servlet-name>FormPriceHistory</servlet-name>
+    <url-pattern>/form-history</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet-mapping>
+    <servlet-name>PriceHistoryServlet</servlet-name>
+    <url-pattern>/history</url-pattern>
+  </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>ComissionServlet</servlet-name>

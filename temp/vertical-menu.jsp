@@ -78,5 +78,23 @@
                 <div>Commissions</div>
             </a>
         </li>
+
+
+         <!-- History -->
+         <li class="menu-item">
+            <a href="history" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-dollar-circle"></i>
+                <div>history</div>
+            </a>
+        </li>
+
+
+         <!-- History -->
+         <li class="menu-item">
+            <a href="form-history" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-dollar-circle"></i>
+                <div>Insertionn</div>
+            </a>
+        </li>
     </ul>
 </aside>

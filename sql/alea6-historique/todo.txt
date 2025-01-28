@@ -1,0 +1,35 @@
+but avoir 
+    list historique price filtre, produit date min, date max
+
+
+    create table recipe_price date
+
+
+boulangerie=# select* from price_history;
+ id_price | id_recipe | price | starts_date | end_date 
+----------+-----------+-------+-------------+----------
+        1 |         1 |  3.50 | 2025-01-05  | 
+        2 |         2 |  4.00 | 2025-01-05  | 
+        3 |         3 |  5.50 | 2025-01-05  | 
+        4 |         4 |  3.75 | 2025-01-06  | 
+        5 |         5 |  2.25 | 2025-01-06  | 
+(5 rows)
+
+boulangerie=# 
+
+
+
+add column , id_user to price_history 
+
+
+
+--create dao price_history,
+
+    for insert 
+
+    list 
+
+    filtre by datemin datemax, product , user 
+
+
+
