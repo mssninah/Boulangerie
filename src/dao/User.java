@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 
 public class User {
 
@@ -12,6 +13,9 @@ public class User {
     private String lastname;
     private String email;
     private String password;
+
+    private int id_sexe;
+    private int id_status;
 
     public User(String email, String password) {
         this.email = email;
@@ -33,6 +37,16 @@ public class User {
         this.password = password;
     }
 
+    public User(int id, String firstname, String lastname, String email, String password, int id_sexe, int id_status) {
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+        this.id_sexe = id_sexe;
+        this.id_status = id_status;
+    }
+
     public static ArrayList<User> all() throws Exception {
         ArrayList<User> users = new ArrayList<>();
 
@@ -45,15 +59,20 @@ public class User {
             String lastname;
             String email;
             String password;
+            int id_sexe;
+            int id_status;
+
             while (resultSet.next()) {
                 id = resultSet.getInt("id_user");
                 firstname = resultSet.getString("firstname");
                 lastname = resultSet.getString("lastname");
                 email = resultSet.getString("email");
                 password = resultSet.getString("user_password");
+                id_sexe = resultSet.getInt("id_sexe");
+                id_status = resultSet.getInt("id_status");
 
                 users.add(
-                        new User(id, firstname, lastname, email, password)
+                        new User(id, firstname, lastname, email, password, id_sexe, id_status)
                 );
             }
         }
@@ -163,6 +182,22 @@ public class User {
         this.password = password;
     }
 
+    public int getIdStatus(){
+        return id_status;
+    }
+
+    public void setIdStatus(int id_status){
+        this.id_status = id_status;
+    }
+
+    public int getIdSexe(){
+        return id_sexe;
+    }
+
+    public void setIdSexe(int id_sexe){
+        this.id_sexe = id_sexe;
+    }
+
     @Override
     public String toString() {
         return "User [id=" + id + ", firstname=" + firstname + ", lastname=" + lastname + ", email=" + email
@@ -203,5 +238,27 @@ public class User {
     
         return user;
     }
+
+    public static List<User> getClients(List<User> users) {
+        List<User> clients = new ArrayList<>();
+        for (User user : users) {
+            if (user.getIdStatus() == 2) { //Client = 2;
+                clients.add(user);
+            }
+        }
+        return clients;
+    }
+
+    public static List<User> getVendeurs(List<User> users) {
+        List<User> clients = new ArrayList<>();
+        for (User user : users) {
+            if (user.getIdStatus() == 3) { //Vendeur = 3;
+                clients.add(user);
+            }
+        }
+        return clients;
+    }
+
+
     
 }
