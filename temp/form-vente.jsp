@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page import="dao.Recipe, dao.Category, java.util.ArrayList, util.SessionUtils,dao.User"%>
+<%@ page import="dao.Recipe, dao.Category, dao.User, java.util.ArrayList, java.util.List, util.SessionUtils"%>
 
 <%
     boolean connected = SessionUtils.isUserConnected(request);
@@ -47,7 +47,29 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="totalAmount" class="form-label">Montant total</label>
-                                            <input type="number" step="0.01" id="totalAmount" name="totalAmount" class="form-control" required>
+                                            <input type="number" step="0.01" id="totalAmount" name="totalAmount" class="form-control" required readonly>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="client" class="form-label">Client</label>
+                                            <select id="client" name="clientId" class="form-control" required>
+                                                <option value="" disabled selected>Select Client</option>
+                                                <% List<User> clients = (List<User>) request.getAttribute("clients"); %>
+                                                <% for (User client : clients) { %>
+                                                    <option value="<%= client.getId() %>"><%= client.getFirstname() %></option>
+                                                <% } %>
+                                            </select>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="vendeur" class="form-label">Vendeur</label>
+                                            <select id="vendeur" name="vendeurId" class="form-control" required>
+                                                <option value="" disabled selected>Select Vendeur</option>
+                                                <% List<User> vendeurs = (List<User>) request.getAttribute("vendeurs"); %>
+                                                <% for (User vendeur : vendeurs) { %>
+                                                    <option value="<%= vendeur.getId() %>"><%= vendeur.getFirstname() %></option>
+                                                <% } %>
+                                            </select>
                                         </div>
 
                                         <!-- Table for dynamic products -->
