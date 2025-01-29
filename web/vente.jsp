@@ -127,7 +127,7 @@
                                         <th>Client</th>
                                         <th>Vendeur</th>
                                         <th>Nom du produit</th>
-                                        <th>Nom de la Categorie</th>
+                                        <th>Categorie</th>
                                         <th>is_nature</th>
                                         <th>Unite price</th>
                                         <th>Total amount</th>

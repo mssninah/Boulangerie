@@ -82,7 +82,7 @@
         <!-- Comissions -->
         <li class="menu-item">
             <a href="historyprice" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-dollar-circle"></i>
+                <i class="menu-icon tf-icons bx bx-category"></i>
                 <div>Historique</div>
             </a>
         </li>
