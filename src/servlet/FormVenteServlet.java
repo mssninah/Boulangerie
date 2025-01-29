@@ -23,17 +23,14 @@ public class FormVenteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-                        // Inside your controller, you need to set the recipe list in the request attributes before forwarding the request to the JSP.
-            ArrayList<Recipe> recipes = Recipe.all(); // Assuming Recipe.all() returns a list of recipes
-            
+            List<Recipe> recipes = Recipe.all(); 
+
             List<User> users = User.all();
             List<User> clients = User.getClients(users);
             List<User> vendeurs = User.getVendeurs(users);
-
-            String p = "Formulaire vente";
             
             req.setAttribute("recipes", recipes);
-            req.setAttribute("pageTitle", p);
+            req.setAttribute("pageTitle", "Formulaire vente");
             req.setAttribute("clients", clients);
             req.setAttribute("vendeurs", vendeurs);
             // Afficher le formulaire de saisie de vente

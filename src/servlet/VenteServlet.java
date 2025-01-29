@@ -19,22 +19,21 @@ public class VenteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            
-                // Récupérer la liste des ventes
                 ArrayList<String[]> salesList = Vente.getSalesList();
-                req.setAttribute("liste_ventes", salesList);
-                req.setAttribute("pageTitle", "Liste des Ventes");
 
-                ArrayList<Ingredient> i= Ingredient.liste_parfum();
-                req.setAttribute("parfum", i);
-                // Retrieve all categories for the filter dropdown
+                ArrayList<Ingredient> parfum= Ingredient.liste_parfum();
+                
                 ArrayList<Category> categories = Category.all();
+                
+                List<User> clients = User.all();
+                clients = User.getClients(clients);
+
+                req.setAttribute("liste_ventes", salesList);
+                req.setAttribute("parfum", parfum);
                 req.setAttribute("categories", categories);
+                req.setAttribute("users", clients);
 
-                List<User> users = User.all();
-                users = User.getClients(users);
-                req.setAttribute("users", users);
-
+                req.setAttribute("pageTitle", "Liste des Ventes");
                 RequestDispatcher dispatcher = req.getRequestDispatcher("vente.jsp");
                 dispatcher.forward(req, resp);
         
@@ -49,10 +48,10 @@ public class VenteServlet extends HttpServlet {
         try {
             String categoryName = req.getParameter("categoryName");
             String value = req.getParameter("parfum");
-            ArrayList<String[]> filteredSales = null;
-    
             String user = req.getParameter("user");
             String date = req.getParameter("date_vente");
+
+            ArrayList<String[]> filteredSales = null;
  
             int p = 0;
             // Filter sales based on the selected parfum or "nature"
@@ -64,12 +63,6 @@ public class VenteServlet extends HttpServlet {
                 int i = Integer.parseInt(value);
                 filteredSales = Vente.getFilteredparfum(i, categoryName);
             }
-
-            // if (value.isEmpty()) {
-            //     filteredSales = Vente.getFilteredSales(categoryName);
-            //     p=1;
-            // }
-            
 
             if (user != null && !user.isEmpty()) {
                 if (p==0) {

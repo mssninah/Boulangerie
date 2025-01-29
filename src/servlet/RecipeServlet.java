@@ -93,17 +93,6 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws I
         
         double prix = Double.parseDouble(req.getParameter("recipePrice"));
 
-        // Log parameters
-        System.out.println("Action: " + action);
-        System.out.println("ID: " + id);
-        System.out.println("Title: " + title);
-        System.out.println("Description: " + description);
-        System.out.println("Category ID: " + idCategory);
-        System.out.println("Cook Time: " + cookTime);
-        System.out.println("Created By: " + createdBy);
-        System.out.println("Created Date: " + timestamp);
-        System.out.println("Price: " + prix);
-
         Recipe recipe = new Recipe(id, title, description, idCategory, cookTime, createdBy, creationDate, prix);
         HistoryPrice histo = new HistoryPrice(id,prix,timestamp);
 
@@ -113,6 +102,7 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws I
             histo.create();
         } else {
             recipe.create();
+            histo.create();
         }
 
         resp.sendRedirect("recipe");
