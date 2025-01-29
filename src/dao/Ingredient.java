@@ -286,6 +286,7 @@ public class Ingredient {
     public String toString() {
         return "Ingredient [id=" + id + ", name=" + name + ", unit=" + unit + ", price=" + price + "]";
     }
+
     public static ArrayList<Ingredient> liste_parfum() throws Exception {
         ArrayList<Ingredient> ingredients = new ArrayList<Ingredient>();
 
@@ -296,7 +297,7 @@ public class Ingredient {
         try {
             connection = DBConnection.getPostgesConnection();
             statement = connection.prepareStatement(
-                "SELECT * FROM ingredient_parfum"
+                "SELECT * FROM ingredient where is_nature = false"
             );
             resultSet = statement.executeQuery();
 

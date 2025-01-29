@@ -311,8 +311,8 @@ public class Recipe {
             connection = DBConnection.getPostgesConnection();
             connection.setAutoCommit(false);
             statement = connection.prepareStatement(
-                "INSERT INTO recipe(title, recipe_description, id_category, cook_time, created_by, created_date)"
-                + " VALUES (?, ?, ?, ?, ?, ?)"
+                "INSERT INTO recipe(title, recipe_description, id_category, cook_time, created_by, created_date, prix)"
+                + " VALUES (?, ?, ?, ?, ?, ?, ?)"
             );
             statement.setString(1, title);
             statement.setString(2, description);
@@ -320,6 +320,7 @@ public class Recipe {
             statement.setTime(4, Time.valueOf(cookTime));
             statement.setString(5, createdBy);
             statement.setDate(6, Date.valueOf(createdDate));
+            statement.setDouble(7, price);
             statement.executeUpdate();
             connection.commit();
         } catch (Exception e) {
@@ -349,7 +350,7 @@ public class Recipe {
             statement.setString(5, createdBy);
             statement.setDate(6, Date.valueOf(createdDate));
             statement.setInt(8, id);
-            statement.setDouble(7, this.price);
+            statement.setDouble(7, price);
             statement.executeUpdate();
             connection.commit();
         } catch (Exception e) {

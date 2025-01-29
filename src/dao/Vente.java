@@ -146,15 +146,6 @@ public class Vente {
                            "JOIN recipe_nature vn ON r.id_recipe = vn.id_recipe " +
                            "ORDER BY v.id_vente";
 
-            // String query = "SELECT v.id_vente, v.vente_date, " + 
-            //                 "client.firstname || ' ' || client.lastname AS client_name, " +
-            //                 "vendeur.firstname || ' ' || vendeur.lastname AS vendeur_name, " +
-            //                 "v.total_amount " +
-            //                 "FROM vente v " +
-            //                 "LEFT JOIN boulangerie_user client ON v.id_client = client.id_user " +
-            //                 "LEFT JOIN boulangerie_user vendeur ON v.id_vendeur = vendeur.id_user " +
-            //                 "ORDER BY v.id_vente";
-
             statement = connection.prepareStatement(query);
             resultSet = statement.executeQuery();
 
