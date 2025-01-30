@@ -3,7 +3,7 @@ package servlet;
 import dao.Category;
 import dao.Ingredient;
 import dao.User;
-import dao.Vente;
+import dao.VenteDetailsView;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -19,7 +19,7 @@ public class VenteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-                ArrayList<String[]> salesList = Vente.getSalesList();
+                ArrayList<VenteDetailsView> salesList = VenteDetailsView.all();
 
                 ArrayList<Ingredient> parfum= Ingredient.liste_parfum();
                 
@@ -47,63 +47,48 @@ public class VenteServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         try {
             String categoryName = req.getParameter("categoryName");
-            String value = req.getParameter("parfum");
-            String user = req.getParameter("user");
-            String date = req.getParameter("date_vente");
-
-            ArrayList<String[]> filteredSales = null;
- 
-            int p = 0;
-            // Filter sales based on the selected parfum or "nature"
-            if (value != null && value.equals("nature")) {
-                filteredSales = Vente.getFilteredSales(true, categoryName);
-                p=1;
-            } else if(value!=null && !value.isEmpty()){
-                p=1;
-                int i = Integer.parseInt(value);
-                filteredSales = Vente.getFilteredparfum(i, categoryName);
-            }
-
-            if (user != null && !user.isEmpty()) {
-                if (p==0) {
-                    filteredSales= Vente.getSalesList();
-                    System.out.println("if 1 :" + filteredSales.size());
-                    p=1;
-                }
-                System.out.println("if 2 :" + filteredSales.size());
-                int u = Integer.parseInt(user);  // Effectuer la conversion uniquement si la chaîne n'est pas vide
-                Vente.filteparuser(filteredSales, u);
-            }
-
-            if (date != null && !date.isEmpty()) {
-                if (p==0) {
-                    filteredSales= Vente.getSalesList();
-                }
-                Vente.filtrepardate(filteredSales, date);
-            }
-            // Pass filtered sales results to the view
-            req.setAttribute("filteredSales", filteredSales);
-            req.setAttribute("pageTitle", "Ventes Filtrées");
+            int value = Integer.parseInt(req.getParameter("parfum"));
+            System.out.println(value);
+            int user = Integer.parseInt(req.getParameter("user"));
+            String dateStr = req.getParameter("date_vente");
             
+            ArrayList<VenteDetailsView> filteredSales = VenteDetailsView.all();
             ArrayList<Ingredient> i= Ingredient.liste_parfum();
-            req.setAttribute("parfum", i);
-            // Retrieve all categories for the filter dropdown
-            ArrayList<Category> categories = Category.all();
-            req.setAttribute("categories", categories);
-
             List<User> users = User.all();
             users = User.getClients(users);
+            ArrayList<Category> categories = Category.all();
+ 
+            if (categoryName != null && !categoryName.isEmpty()) {
+                filteredSales = VenteDetailsView.getFilteredCategory(categoryName, filteredSales);
+            }
+
+            if (value == -1) {
+                filteredSales = VenteDetailsView.getFilteredNature(true, filteredSales);
+            } else if (value != 0) {
+                filteredSales = VenteDetailsView.getFilteredParfum(value, filteredSales);
+            }
+
+            if (user != 0) {
+                filteredSales = VenteDetailsView.getFilteredClient(user, filteredSales);
+            }
+
+            if (dateStr != null && !dateStr.isEmpty()) {
+                java.sql.Date date = java.sql.Date.valueOf(dateStr);
+                filteredSales = VenteDetailsView.getFilteredDate(date, filteredSales);
+                
+            }
+
+            req.setAttribute("liste_ventes", filteredSales);
+            req.setAttribute("pageTitle", "Ventes Filtrées");
+            req.setAttribute("parfum", i);
+            req.setAttribute("categories", categories);
             req.setAttribute("users", users);
     
-            // Optionally clear the session attribute "filtre"
-            req.getSession().removeAttribute("filtre");
-    
-            // Forward the request to the "vente.jsp" page
             RequestDispatcher dispatcher = req.getRequestDispatcher("vente.jsp");
             dispatcher.forward(req, resp);
     
         } catch (Exception e) {
             throw new ServletException(e);
         }
-    }  
+    }
 }

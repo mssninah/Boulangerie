@@ -8,7 +8,6 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import util.SessionUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -17,10 +16,6 @@ public class FormRecipeIngredientServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if (!SessionUtils.isUserConnected(req)) {
-            resp.sendRedirect("form-login");
-            return;
-        }
 
         try {
             String action = req.getParameter("action");

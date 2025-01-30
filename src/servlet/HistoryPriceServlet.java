@@ -25,7 +25,7 @@ public class HistoryPriceServlet extends HttpServlet {
             req.setAttribute("pageTitle", "Historique des prix");
             
             // Rediriger vers la page JSP qui va afficher les données
-            RequestDispatcher dispatcher = req.getRequestDispatcher("historyPrice.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("history-price.jsp");
             dispatcher.forward(req, resp);
 
         } catch (Exception e) {
