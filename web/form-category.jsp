@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="dao.Category, util.SessionUtils" %>
-<% boolean connected = SessionUtils.isUserConnected(request); %>
 <% Category category = (Category) request.getAttribute("category"); %>
 
 <%@include file="header.jsp"%>

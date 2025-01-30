@@ -2,11 +2,6 @@
 <%@ page import="dao.Recipe, dao.Category, dao.User, java.util.ArrayList, java.util.List, util.SessionUtils"%>
 
 <%
-    boolean connected = SessionUtils.isUserConnected(request);
-    User u = null;
-    if(connected){
-        u=SessionUtils.getConnectedUser(request);
-    }
     ArrayList<Recipe> recipes = (ArrayList<Recipe>) request.getAttribute("recipes");
 %>
 

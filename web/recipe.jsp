@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="dao.Recipe, dao.Ingredient,dao.Category, java.util.ArrayList, util.SessionUtils,dao.User" %>
-<% boolean connected = SessionUtils.isUserConnected(request); %>
 
 <%@include file="header.jsp"%>
 
@@ -153,10 +152,8 @@
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
                         <h5 class="card-header">Liste des recettes</h5>
-                        <% if (connected) { %>
                         <div class="card-body"><a href="form-recipe" type="button" class="btn btn-success">Ajouter</a>
                         </div>
-                        <% } %>
                         <div class="table-responsive text-nowrap" style="overflow: auto visible">
                             <table class="table">
                                 <thead>
@@ -201,7 +198,6 @@
                                                     <i class="bx bx-book-content me-1"></i>
                                                     Détails
                                                 </a>
-                                                <% if (connected) { %>
                                                 <a class="dropdown-item"
                                                    href="form-recipe?action=update&id=<%= recipe.getId() %>">
                                                     <i class="bx bx-edit-alt me-1"></i>
@@ -212,7 +208,6 @@
                                                     <i class="bx bx-trash me-1"></i>
                                                     Supprimer
                                                 </a>
-                                                <% } %>
                                             </div>
                                         </div>
                                     </td>

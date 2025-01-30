@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="dao.Step, dao.Recipe, java.util.ArrayList, util.SessionUtils" %>
-<% boolean connected = SessionUtils.isUserConnected(request); %>
 
 <%@include file="header.jsp"%>
 
@@ -112,10 +111,8 @@
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
                         <h5 class="card-header">Liste des étapes</h5>
-                        <% if (connected) { %>
                         <div class="card-body"><a href="form-step" type="button" class="btn btn-success">Ajouter</a>
                         </div>
-                        <% } %>
                         <div class="table-responsive text-nowrap" style="overflow-x: visible;">
                             <table class="table">
                                 <thead>
@@ -124,9 +121,7 @@
                                     <th>ID Recette</th>
                                     <th>Numéro d'étape</th>
                                     <th>Instruction</th>
-                                    <% if (connected) { %>
                                     <th>Actions</th>
-                                    <% } %>
                                 </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
@@ -140,7 +135,6 @@
                                     </td>
                                     <td><%= step.getInstructionExcerpt() %>
                                     </td>
-                                    <% if (connected) { %>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -161,7 +155,6 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <% } %>
                                 </tr>
                                 <% } %>
                                 </tbody>

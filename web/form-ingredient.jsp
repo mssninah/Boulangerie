@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="dao.Ingredient, util.SessionUtils" %>
 <%
-    boolean connected = SessionUtils.isUserConnected(request);
     Ingredient ingredient = (Ingredient) request.getAttribute("ingredient");
 %>
 
