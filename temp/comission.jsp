@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="dao.CommissionViewDAO, dao.CommissionSexe, dao.User, java.util.List, util.SessionUtils" %>
 <%
-    boolean connected = SessionUtils.isUserConnected(request);
     String errorMessage = (String) request.getAttribute("errorMessage");
 %>
 

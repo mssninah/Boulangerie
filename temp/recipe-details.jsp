@@ -2,7 +2,6 @@
 <%@ page import="dao.Recipe, dao.Step, java.util.ArrayList, util.SessionUtils" %>
 <%@ page import="dao.RecipeIngredient" %>
 <%
-    boolean connected = SessionUtils.isUserConnected(request);
     Recipe recipe = (Recipe) request.getAttribute("recipe");
     ArrayList<Step> steps = (ArrayList<Step>) request.getAttribute("steps");
     ArrayList<RecipeIngredient> recipeIngredients = (ArrayList<RecipeIngredient>) request.getAttribute("recipeIngredients");
@@ -67,11 +66,9 @@
 
                     <!-- Recipe's ingredients table -->
                     <div class="card mb-3">
-                        <h5 class="card-header">Ingrédients de la recette</h5>
-                        <% if (SessionUtils.isUserConnected(request)) { %>
+                        <h5 class="card-header">Ingrédients de la recette</h5>                   
                         <div class="card-body"><a href="form-recipe-ingredient?idRecipe=<%= recipe.getId() %>" type="button" class="btn btn-success">Ajouter</a>
                         </div>
-                        <% } %>
                         <div class="table-responsive text-nowrap" style="overflow-x: visible;">
                             <table class="table">
                                 <thead>
@@ -79,9 +76,7 @@
                                     <th>#</th>
                                     <th>Nom</th>
                                     <th>Quantité</th>
-                                    <% if (SessionUtils.isUserConnected(request)) { %>
                                     <th>Actions</th>
-                                    <% } %>
                                 </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
@@ -93,7 +88,6 @@
                                     </td>
                                     <td><%= recipeIngredient.getQuantity() %> <%= recipeIngredient.getIngredientUnit() %>
                                     </td>
-                                    <% if (SessionUtils.isUserConnected(request)) { %>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -114,7 +108,6 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <% } %>
                                 </tr>
                                 <% } %>
                                 </tbody>
@@ -127,10 +120,8 @@
                     <div class="card">
                         <h5 class="card-header">Etapes de la recette</h5>
                         <div class="card-body">
-                            <% if (SessionUtils.isUserConnected(request)) { %>
                             <a href="form-step?idRecipe=<%= recipe.getId() %>" type="button"
                                class="btn btn-success mb-4">Ajouter</a>
-                            <% } %>
                             <div class="list-group">
                                 <% for (Step step : steps) { %>
                                 <div class="list-group-item flex-column align-items-start p-3">
@@ -140,7 +131,6 @@
                                     </div>
                                     <p class="mb-1 w-50"><%= step.getInstruction() %>
                                     </p>
-                                    <% if (SessionUtils.isUserConnected(request)) { %>
                                     <div class="actions">
                                         <a href="form-step?action=update&id=<%= step.getId() %>" type="button"
                                            class="update-btn btn rounded-pill btn-icon btn-outline-secondary me-2">
@@ -151,7 +141,6 @@
                                             <span class="tf-icons bx bx-trash"></span>
                                         </a>
                                     </div>
-                                    <% } %>
                                 </div>
                                 <% } %>
                             </div>

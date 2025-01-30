@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="dao.Recipe, dao.Review, java.util.ArrayList, util.SessionUtils" %>
-<% boolean connected = SessionUtils.isUserConnected(request); %>
 <% Review review = (Review) request.getAttribute("review"); %>
 
 <%@include file="header.jsp"%>

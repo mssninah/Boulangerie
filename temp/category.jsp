@@ -1,6 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page import="dao.Category, java.util.ArrayList, util.SessionUtils" %>
-<% boolean connected = SessionUtils.isUserConnected(request); %>
 
 <%@include file="header.jsp"%>
 
@@ -45,19 +44,15 @@
                     <!-- Basic Bootstrap Table -->
                     <div class="card">
                         <h5 class="card-header">Liste des catégories</h5>
-                        <% if (connected) { %>
                         <div class="card-body"><a href="form-category" type="button" class="btn btn-success">Ajouter</a>
                         </div>
-                        <% } %>
                         <div class="table-responsive text-nowrap" style="overflow-x: visible;">
                             <table class="table">
                                 <thead>
                                 <tr>
                                     <th>#</th>
                                     <th>Nom</th>
-                                    <% if (connected) { %>
                                     <th>Actions</th>
-                                    <% } %>
                                 </tr>
                                 </thead>
                                 <tbody class="table-border-bottom-0">
@@ -67,7 +62,6 @@
                                     </strong></td>
                                     <td><%= category.getName() %>
                                     </td>
-                                    <% if (connected) { %>
                                     <td>
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
@@ -88,7 +82,6 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <% } %>
                                 </tr>
                                 <% } %>
                                 </tbody>
