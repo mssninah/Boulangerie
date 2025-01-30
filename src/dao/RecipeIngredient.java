@@ -235,43 +235,72 @@ public class RecipeIngredient {
         }
     }
 
-    public int getIdRecipe() {
-        return idRecipe;
+    public static ArrayList<RecipeIngredient> getByIdRecipe (int idRecipe) throws Exception {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        ArrayList<RecipeIngredient> recipeIngredients = new ArrayList<>();
+
+        try {
+            connection = DBConnection.getPostgesConnection();
+            statement = connection.prepareStatement(
+                "SELECT * FROM recipe_ingredient AS ri"
+                + " INNER JOIN ingredient AS i ON i.id_ingredient = ri.id_ingredient"
+                + " WHERE ri.id_recipe = ?"
+            );
+            statement.setInt(1, idRecipe);
+            resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                recipeIngredients.add(new RecipeIngredient(
+                    resultSet.getInt("id_recipe"),
+                    resultSet.getInt("id_ingredient"),
+                    resultSet.getString("ingredient_name"),
+                    resultSet.getString("unit"),
+                    resultSet.getDouble("quantity")
+                ));
+            }
+        } finally {
+            if (resultSet != null) resultSet.close();
+            if (statement != null) statement.close();
+            if (connection != null) connection.close();
+        }
+
+        return recipeIngredients;
     }
     
-    public void setIdRecipe(int idRecipe) {
-        this.idRecipe = idRecipe;
-    }
-    
-    public int getIdIngredient() {
-        return idIngredient;
-    }
-    
-    public void setIdIngredient(int idIngredient) {
-        this.idIngredient = idIngredient;
-    }
-    
-    public double getQuantity() {
-        return quantity;
-    }
-    
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
+    public static boolean checkIngredient(int idIngredient, ArrayList<RecipeIngredient> list) throws Exception{
+        boolean found = false;
+        for (RecipeIngredient recipeIngredient : list) {
+            if (recipeIngredient.getIdIngredient() == idIngredient) {
+                System.out.println("idRecipe: " + recipeIngredient.getIdRecipe()+ " idIngredient: " + recipeIngredient.getIdIngredient());
+                found = true;
+                break;
+            }
+        }
+        return found;
     }
 
-    public String getIngredientName() {
-        return ingredientName;
-    }
+    public int getIdRecipe() { return idRecipe; }
+    public void setIdRecipe(int idRecipe) { this.idRecipe = idRecipe; }
+    public int getIdIngredient() { return idIngredient; }
+    public void setIdIngredient(int idIngredient) { this.idIngredient = idIngredient; }
+    public double getQuantity() { return quantity; }
+    public void setQuantity(double quantity) { this.quantity = quantity; }
+    public String getIngredientName() { return ingredientName; }
+    public void setIngredientName(String ingredientName) { this.ingredientName = ingredientName; }
+    public String getIngredientUnit() { return ingredientUnit; }
+    public void setIngredientUnit(String ingredientUnit) { this.ingredientUnit = ingredientUnit; }
 
-    public void setIngredientName(String ingredientName) {
-        this.ingredientName = ingredientName;
-    }
-
-    public String getIngredientUnit() {
-        return ingredientUnit;
-    }
-
-    public void setIngredientUnit(String ingredientUnit) {
-        this.ingredientUnit = ingredientUnit;
+    public static void main(String[] args) {
+        try {
+            int idRecipe = 2;
+            ArrayList<RecipeIngredient> recipeIngredients = RecipeIngredient.getByIdRecipe(idRecipe);
+            int idIngredient = 5;
+            boolean ingredientExists = RecipeIngredient.checkIngredient(idIngredient, recipeIngredients);
+            System.out.println("Ingredient exists: " + ingredientExists);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
