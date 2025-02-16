@@ -117,4 +117,42 @@ INNER JOIN
 GROUP BY 
     s.nom;
 
+CREATE OR REPLACE VIEW vente_details_view AS
+SELECT 
+    v.id_vente AS venteId,
+    v.vente_date AS venteDate,
+    v.total_amount AS totalAmount,
+    c.id_user AS clientId,
+    c.firstname AS clientName,
+    u.id_user AS vendeurId,
+    u.firstname || ' ' || u.lastname AS vendeurName,
+    r.id_recipe AS idRecipe,
+    r.title AS recipe,
+    cat.category_name AS categoryName,
+    CASE 
+        WHEN EXISTS (
+            SELECT 1
+            FROM recipe_ingredient ri
+            JOIN ingredient i ON ri.id_ingredient = i.id_ingredient
+            WHERE ri.id_recipe = r.id_recipe
+            AND i.is_nature = TRUE
+        ) THEN TRUE
+        ELSE FALSE
+    END AS isNature,
+    vd.quantity AS quantity,
+    vd.unit_price AS unitPrice,
+    (vd.quantity * vd.unit_price) AS subTotal
+FROM 
+    vente v
+LEFT JOIN 
+    boulangerie_user c ON v.id_client = c.id_user
+LEFT JOIN 
+    boulangerie_user u ON v.id_user = u.id_user
+LEFT JOIN 
+    vente_details vd ON v.id_vente = vd.id_vente
+LEFT JOIN 
+    recipe r ON vd.id_recipe = r.id_recipe
+LEFT JOIN 
+    category cat ON r.id_category = cat.id_category;
+
 
