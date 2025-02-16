@@ -2,8 +2,8 @@
 setlocal enabledelayedexpansion
 
 :: Déclaration des variables
-set "work_dir=E:\S5\BoulangerieNinah"
-set "tomcat_dir=C:\apache-tomcat-10.1.34\bin"
+set "work_dir=D:\S5\Boulangerie"
+set "tomcat_dir=D:\Program\Tomcat 10.1\bin"
 
 :: Lancer Tomcat
 cd /d "%tomcat_dir%"
