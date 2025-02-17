@@ -34,8 +34,6 @@
                 <!-- Content -->
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Gotta taste /</span> Vente</h4>
-                    <button type="button" class="btn btn-primary mt-3"><a href="formvente" class="text-white">Ajouter une nouvelle vente</a></button>
-                    <!-- Category filter form -->
                     
                     <form method="post" action="vente">
                         <div class="mb-3">
@@ -100,7 +98,7 @@
                         <h5 class="card-header">Liste des ventes</h5>
                         <div class="card-body">
                                 <div class="mb-3">
-                                    <a href="form-ingredient" type="button" class="btn btn-success">Ajouter</a>
+                                    <a href="formvente" type="button" class="btn btn-success">Ajouter</a>
                                 </div>
                             <% if(errorMessage != null) { %>
                                 <div class="alert alert-danger alert-dismissible mb-0" role="alert">
