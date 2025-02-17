@@ -100,7 +100,7 @@ SELECT
 FROM
     vente v
 INNER JOIN
-    commission c ON v.id_user = c.id_vendeur
+    commission c ON v.id_vendeur = c.id_vendeur
 WHERE
     v.vente_date BETWEEN c.date_debut AND c.date_fin;
 
@@ -119,16 +119,16 @@ GROUP BY
 
 CREATE OR REPLACE VIEW vente_details_view AS
 SELECT 
-    v.id_vente AS venteId,
-    v.vente_date AS venteDate,
-    v.total_amount AS totalAmount,
-    c.id_user AS clientId,
-    c.firstname AS clientName,
-    u.id_user AS vendeurId,
-    u.firstname || ' ' || u.lastname AS vendeurName,
-    r.id_recipe AS idRecipe,
+    v.id_vente AS id_vente,
+    v.vente_date AS vente_date,
+    v.total_amount AS total_amount,
+    c.id_user AS client_id,
+    c.firstname || ' ' || c.lastname AS client_name,
+    u.id_user AS id_vendeur,
+    u.firstname || ' ' || u.lastname AS vendeur_name,
+    r.id_recipe AS id_recipe,
     r.title AS recipe,
-    cat.category_name AS categoryName,
+    cat.category_name AS category_name,
     CASE 
         WHEN EXISTS (
             SELECT 1
@@ -138,10 +138,10 @@ SELECT
             AND i.is_nature = TRUE
         ) THEN TRUE
         ELSE FALSE
-    END AS isNature,
+    END AS is_nature,
     vd.quantity AS quantity,
-    vd.unit_price AS unitPrice,
-    (vd.quantity * vd.unit_price) AS subTotal
+    vd.unit_price AS unit_price,
+    (vd.quantity * vd.unit_price) AS sub_total
 FROM 
     vente v
 LEFT JOIN 
