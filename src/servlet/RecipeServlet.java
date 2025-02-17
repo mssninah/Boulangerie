@@ -101,8 +101,11 @@ protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws I
             recipe.update();
             histo.create();
         } else {
-            recipe.create();
-            histo.create();
+            if(recipe.getId() == 0){
+                int idRecipe=recipe.createInt();
+                HistoryPrice histo2 = new HistoryPrice(idRecipe,prix,timestamp);
+                histo2.create();
+            }    
         }
 
         resp.sendRedirect("recipe");
