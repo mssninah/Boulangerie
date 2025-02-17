@@ -332,6 +332,50 @@ public class Recipe {
         }
     }
 
+    public int createInt() throws Exception {
+    Connection connection = null;
+    PreparedStatement statement = null;
+    ResultSet generatedKeys = null;
+    String query = "INSERT INTO recipe(title, recipe_description, id_category, cook_time, created_by, created_date, prix) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id_recipe";
+    try {
+        connection = DBConnection.getPostgesConnection();
+        connection.setAutoCommit(false);
+        statement = connection.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+        statement.setString(1, title);
+        statement.setString(2, description);
+        statement.setInt(3, idCategory);
+        statement.setTime(4, Time.valueOf(cookTime));
+        statement.setString(5, createdBy);
+        statement.setDate(6, Date.valueOf(createdDate));
+        statement.setDouble(7, price);
+        
+        int affectedRows = statement.executeUpdate();
+        if (affectedRows == 0) {
+            throw new Exception("Insertion échouée, aucune ligne affectée.");
+        }
+
+        generatedKeys = statement.getGeneratedKeys();
+        if (generatedKeys.next()) {
+            this.id = generatedKeys.getInt(1);
+        } else {
+            throw new Exception("Aucun ID généré pour la recette.");
+        }
+
+        connection.commit(); // Valider la transaction
+        return this.id;
+    } catch (Exception e) {
+        if (connection != null) {
+            connection.rollback(); // Annuler en cas d'erreur
+        }
+        throw e;
+    } finally {
+        if (generatedKeys != null) generatedKeys.close();
+        if (statement != null) statement.close();
+        if (connection != null) connection.close();
+    }
+}
+
+
     public void update() throws Exception {
         Connection connection = null;
         PreparedStatement statement = null;
