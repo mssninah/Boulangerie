@@ -252,7 +252,7 @@ public class User {
     public static List<User> getVendeurs(List<User> users) {
         List<User> clients = new ArrayList<>();
         for (User user : users) {
-            if (user.getIdStatus() == 3) { //Vendeur = 3;
+            if (user.getIdStatus() == 1) { //Vendeur = 1;
                 clients.add(user);
             }
         }
