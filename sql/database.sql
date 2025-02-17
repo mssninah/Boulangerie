@@ -43,6 +43,9 @@ CREATE TABLE recipe (
     FOREIGN KEY (id_category) REFERENCES category(id_category)
 );
 
+ALTER TABLE recipe
+ADD COLUMN prix DECIMAL(10, 2);
+
 
 CREATE TABLE ingredient (
     id_ingredient SERIAL PRIMARY KEY,
